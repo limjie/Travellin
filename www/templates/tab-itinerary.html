@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<ion-view view-title="Itinerary">
+    <ion-nav-buttons side="primary">
+        <button class="button" ng-click="add()">
+            Add
+        </button>
+    </ion-nav-buttons>
+    <ion-content>
+        <ion-list>
+            <ion-item ng-repeat="itineary in itineraries" class="item-icon-right">
+                <h2 ng-click="view(itineary)">{{itineary.name}}</h2>
+                <i class="icon ion-chevron-left icon-accessory"></i>
+                <ion-option-button class="button-energized" ng-click="edit(itineary)">
+                    Edit
+                </ion-option-button>
+                <ion-option-button class="button-assertive" ng-click="remove(itineary)">
+                    Delete
+                </ion-option-button>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+    <!-- Add Modal -->
+    <script id="itineraryAdd.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar bar-header bar-energized">
+                <span ng-class="{style: true}">Add Itinerary</span>
+            </ion-header-bar>
+            <ion-content class="padding">
+                <div class="list">
+                    <label class="item item-input">
+                        <span class="input-label">Name:</span>
+                        <input ng-model="added.name" type="text">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Country:</span>
+                        <input ng-model="added.country" type="text">
+                    </label>
+                    <div class="button-bar">
+                        <a class="button button-energized" ng-click="additinerary(added)">Add</a>
+                        <a class="button button-dark" ng-click="itineraryAdd.hide()">Cancel</a>
+                    </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+    <!-- Edit Modal -->
+    <script id="itineraryEdit.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar bar-header bar-energized">
+                <span ng-class="{style: true}">Edit Itinerary</span>
+            </ion-header-bar>
+            <ion-content class="padding">
+                <div class="list">
+                    <label class="item item-input">
+                        <span class="input-label">Name:</span>
+                        <input ng-model="editted.name" type="text" placeholder="{{current.name}}">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Country:</span>
+                        <input ng-model="editted.country" type="text" placeholder="{{current.country}}">
+                    </label>
+                    <div class="button-bar">
+                        <a class="button button-energized" ng-click="editItinerary(editted)">Edit</a>
+                        <a class="button button-dark" ng-click="itineraryEdit.hide()">Cancel</a>
+                    </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+    <!-- View Modal -->
+    <script id="itineraryView.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar-royal">  
+                <span class="title">{{current.name}}</span>
+                <button class="button button-primary button-positive" ng-click="itineraryView.hide()">Back</button>
+            </ion-header-bar>
+    </script>
+</ion-view>
