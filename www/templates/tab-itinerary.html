@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <ion-view view-title="Itinerary">
     <ion-nav-buttons side="primary">
-        <button class="button" ng-click="add()">
+        <button class="button" ng-click="addItinerary()">
             Add
         </button>
     </ion-nav-buttons>
     <ion-content>
         <ion-list>
-            <ion-item ng-repeat="itineary in itineraries" class="item-icon-right">
-                <h2 ng-click="view(itineary)">{{itineary.name}}</h2>
+            <ion-item ng-repeat="itinerary in itineraries" class="item-icon-right">
+                <h2 ng-click="view(itinerary)">{{itinerary.name}}, {{itinerary.from.getDate()+"/"+(itinerary.from.getMonth()+1)+"/"+itinerary.from.getFullYear()}}</h2>
                 <i class="icon ion-chevron-left icon-accessory"></i>
-                <ion-option-button class="button-energized" ng-click="edit(itineary)">
+                <ion-option-button class="button-energized" ng-click="edit(itinerary)">
                     Edit
                 </ion-option-button>
-                <ion-option-button class="button-assertive" ng-click="remove(itineary)">
+                <ion-option-button class="button-assertive" ng-click="remove(itinerary)">
                     Delete
                 </ion-option-button>
             </ion-item>
@@ -22,8 +22,8 @@
     <!-- Add Modal -->
     <script id="itineraryAdd.html" type="text/ng-template">
         <ion-modal-view>
-            <ion-header-bar class="bar bar-header bar-energized">
-                <span ng-class="{style: true}">Add Itinerary</span>
+            <ion-header-bar class="bar bar-header bar-positive">
+                <h1 id="alpha" class="title">Add Itinerary</h1>
             </ion-header-bar>
             <ion-content class="padding">
                 <div class="list">
@@ -35,8 +35,16 @@
                         <span class="input-label">Country:</span>
                         <input ng-model="added.country" type="text">
                     </label>
+                    <label class="item item-input">
+                        <span class="input-label">From:</span>
+                        <input ng-model="added.from" type="date">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">To:</span>
+                        <input ng-model="added.to" type="date">
+                    </label>
                     <div class="button-bar">
-                        <a class="button button-energized" ng-click="additinerary(added)">Add</a>
+                        <a class="button button-energized" ng-click="addItineraryconfirm(added)">Add</a>
                         <a class="button button-dark" ng-click="itineraryAdd.hide()">Cancel</a>
                     </div>
             </ion-content>
@@ -46,7 +54,7 @@
     <script id="itineraryEdit.html" type="text/ng-template">
         <ion-modal-view>
             <ion-header-bar class="bar bar-header bar-energized">
-                <span ng-class="{style: true}">Edit Itinerary</span>
+                <h1 id="alpha" class="title">Edit Itinerary</h1>
             </ion-header-bar>
             <ion-content class="padding">
                 <div class="list">
@@ -58,6 +66,14 @@
                         <span class="input-label">Country:</span>
                         <input ng-model="editted.country" type="text" placeholder="{{current.country}}">
                     </label>
+                    <label class="item item-input">
+                        <span class="input-label">From:</span>
+                        <input ng-model="editted.from" type="date">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">To:</span>
+                        <input ng-model="editted.to" type="date">
+                    </label>
                     <div class="button-bar">
                         <a class="button button-energized" ng-click="editItinerary(editted)">Edit</a>
                         <a class="button button-dark" ng-click="itineraryEdit.hide()">Cancel</a>
@@ -68,9 +84,147 @@
     <!-- View Modal -->
     <script id="itineraryView.html" type="text/ng-template">
         <ion-modal-view>
-            <ion-header-bar class="bar-royal">  
-                <span class="title">{{current.name}}</span>
+            <ion-header-bar class="bar bar-header bar-royal">
                 <button class="button button-primary button-positive" ng-click="itineraryView.hide()">Back</button>
+                <h1 id="alpha" class="title">{{current.name}}</h1>
+                <button class="button button-primary button-positive" ng-click="addActivity()">Add</button>
             </ion-header-bar>
+            <ion-content>
+                <div class="row">
+                    <div class="col">Date</div>
+                    <div class="col">Time</div>
+                    <div class="col">Activity</div>
+                    <div class="col">Remarks</div>
+                </div>
+                <ion-list>
+                    <ion-item ng-repeat="item in current.items">
+                        <div class="row">
+                            <div class="col">{{item.date.getDate()+"/"+(item.date.getMonth()+1)+"/"+item.date.getFullYear()}}</div>
+                            <div class="col">{{item.date.getHours()+":"+item.date.getMinutes()}}</div>
+                            <div class="col">{{item.activity}}</div>
+                            <div class="col">{{item.remarks}}</div>
+                            <i class="icon ion-chevron-left icon-accessory"></i>
+                            <ion-option-button class="button-energized" ng-click="edititem(item)">
+                                Edit
+                            </ion-option-button>
+                            <ion-option-button class="button-assertive" ng-click="removeitem(item)">
+                                Delete
+                            </ion-option-button>
+                        </div>
+                    </ion-item>
+                </ion-list>
+            </ion-content>
+    </script>
+    <!-- Add Item Modal -->
+    <script id="activityAdd.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar bar-header bar-royal">
+                <h1 id="alpha" class="title">Add Activity</h1>
+            </ion-header-bar>
+            <ion-content class="padding">
+                <div class="list">
+                    <label class="item item-input">
+                        <span class="input-label">Activity:</span>
+                        <input ng-model="addeditem.activity" type="text">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Date:</span>
+                        <input ng-model="addeditem.date" type="date">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Time:</span>
+                        <input ng-model="addeditem.time" type="time">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Remarks:</span>
+                        <input ng-model="addeditem.remarks" type="text">
+                    </label>
+                    <ion-toggle toggle-class="toggle-positive" ng-model="addeditem.notification.set" ng-checked="addeditem.notification.set" ng-click="notification(item)">Notification</ion-toggle>
+                    <div class="button-bar">
+                        <a class="button button-energized" ng-click="addActivityconfirm(addeditem)">Add</a>
+                        <a class="button button-dark" ng-click="activityAdd.hide()">Cancel</a>
+                    </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+    <!-- Edit Item Modal -->
+    <script id="activityEdit.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar bar-header bar-royal">
+                <h1 id="alpha" class="title">Edit Activity</h1>
+            </ion-header-bar>
+            <ion-content>
+            <div class="list">
+                    <label class="item item-input">
+                        <span class="input-label">Activity:</span>
+                        <input ng-model="editteditem.activity" type="text" placeholder="{{currentitem.activity}}">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Date:</span>
+                        <input ng-model="editteditem.date" type="date" placeholder="{{currentitem.date}}">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Time:</span>
+                        <input ng-model="editteditem.time" type="time" placeholder="{{currentitem.time}}">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Remarks:</span>
+                        <input ng-model="editteditem.remarks" type="text" placeholder="{{currentitem.remarks}}">
+                    </label>
+                    <ion-toggle toggle-class="toggle-positive" ng-model="currentitem.notification.set" ng-checked="currentitem.notification.set" ng-click="editnotification()">Notification</ion-toggle>
+                    <div class="button-bar">
+                        <a class="button button-energized" ng-click="editActivityconfirm(editteditem)">Edit</a>
+                        <a class="button button-dark" ng-click="activityEdit.hide()">Cancel</a>
+                    </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+    <!-- Notification Modal -->
+    <script id="notification.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar bar-header bar-royal">
+                <h1 id="alpha">Add Notification</h1>
+            </ion-header-bar>
+            <ion-content class="padding">
+                <div class="list">
+                    <label class="item item-input">
+                        <span class="input-label">Message:</span>
+                        <input ng-model="noti.message" type="text">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Time before:</span>
+                        <input type="time" ng-model="noti.time">
+                    </label>
+                    <div class="button-bar">
+                        <a class="button button-energized" ng-click="notificationconfirm(noti)">Add</a>
+                        <a class="button button-dark" ng-click="notification.hide()">Cancel</a>
+                    </div>
+                </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+    <!-- Notification Modal -->
+    <script type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar bar-header bar-royal">
+                <h1 id="alpha">Edit Notification</h1>
+            </ion-header-bar>
+            <ion-content class="padding">
+                <div class="list">
+                    <label class="item item-input">
+                        <span class="input-label">Message:</span>
+                        <input ng-model="noti.message" type="text" placeholder="{{currentitem.notification.message}}">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Time before:</span>
+                        <input type="time" ng-model="noti.time">
+                    </label>
+                    <div class="button-bar">
+                        <a class="button button-energized" ng-click="editnotificationconfirm(noti)">Add</a>
+                        <a class="button button-dark" ng-click="editnotification.hide()">Cancel</a>
+                    </div>
+                </div>
+            </ion-content>
+        </ion-modal-view>
     </script>
 </ion-view>

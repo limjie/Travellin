@@ -1,11 +1,16 @@
 angular.module('starter.services', [])
     .factory('Itineraries', function() {
         var itineraries = [{
-            id: 0,
             name: 'Itinerary 1',
             country: 'Singapore',
-            from: new Date('2015-06-15'),
-            to: new Date('2015-07-15')
+            from: new Date('15 Jun 2015'),
+            to: new Date('15 Jul 2015'),
+            items: [{
+                date: new Date('25 Jun 2015 16:30:00 GMT+0800'),
+                activity: 'Swimming',
+                remarks: 'Bring trunks',
+                notification: { set: true, message: 'Wake up!', time: new Date('25 Jun 2015 14:30:00 GMT+0800') }
+            }]
         }];
         return {
             all: function() {
@@ -14,19 +19,22 @@ angular.module('starter.services', [])
             remove: function(itinerary) {
                 itineraries.splice(itineraries.indexOf(itinerary), 1);
             },
-            get: function(id) {
-                for (var i = 0; i < itineraries.length; i++) {
-                    if (itineraries[i].id === parseInt(id)) {
-                        return itineraries[i];
-                    }
-                }
-                return null;
+            removeitem: function(itinerary, activity) {
+                itinerary.items.splice(itinerary.items.indexOf(activity), 1);
             },
             add: function(itinerary) {
                 itineraries.push({
-                    id: itineraries[itineraries.length - 1] + 1,
                     name: itinerary.name,
-                    country: itinerary.country
+                    country: itinerary.country,
+                    from: itinerary.from,
+                    to: itinerary.to
+                });
+            },
+            additem: function(itinerary, activitytoadd) {
+                itinerary.items.push({
+                    date: activitytoadd.date,
+                    activity: activitytoadd.activity,
+                    remarks: activitytoadd.remarks
                 });
             },
             edit: function(itinerary, newitinerary) {
@@ -36,11 +44,25 @@ angular.module('starter.services', [])
                 if (newitinerary.country !== undefined && newitinerary.country !== '') {
                     itinerary.country = newitinerary.country;
                 }
-                if (newitinerary.from !== undefined && newitinerary.from !== '') {
+                if (newitinerary.from !== undefined && newitinerary.from !== null) {
                     itinerary.from = newitinerary.from;
                 }
-                if (newitinerary.to !== undefined && newitinerary.to !== '') {
+                if (newitinerary.to !== undefined && newitinerary.to !== null) {
                     itinerary.to = newitinerary.to;
+                }
+            },
+            addNotification: function(activity, notificationtoadd) {
+                activity.notification = { set: true, message: notificationtoadd.message, time: notificationtoadd.time };
+            },
+            edititem: function(activity, editted) {
+                if(editted.activity !== undefined && editted,activity !== '') {
+                    activity.activity = editted.activity;
+                }
+                if(editted.remarks !== undefined && editted.remarks !== '') {
+                    activity.remarks = editted.remarks;
+                }
+                if (editted.date !== undefined && editted.date !== null) {
+                    activity.date = editted.date;
                 }
             }
         };
