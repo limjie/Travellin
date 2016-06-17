@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<ion-view view-title="Currency Converter">
+    <ion-content padding="true" class="has-header">
+        <br>
+        <span class="button button-positive">{{xcurrency}}</span>
+        <span ng-bind="x" ng-class="{number: true}"></span>
+        <br>
+        <br>
+        <span class="button button-positive">{{acurrency}}</span>
+        <span ng-bind="a" ng-class="{number: true}"></span>
+        <div class="button-bar"> 
+			<a class="button" ng-click="clear()">Clear</a>
+			<a class="button" ng-click="backspace()">&larr;</a>
+        </div>
+        <div class="button-bar">
+            <a class="button" ng-click="input('1')">1</a>
+            <a class="button" ng-click="input('2')">2</a>
+            <a class="button" ng-click="input('3')">3</a>
+            <a class="button" ng-click="op('add')">+</a>
+        </div>
+        <div class="button-bar">
+            <a class="button" ng-click="input('4')">4</a>
+            <a class="button" ng-click="input('5')">5</a>
+            <a class="button" ng-click="input('6')">6</a>
+            <a class="button" ng-click="op('minus')">-</a>
+        </div>
+        <div class="button-bar">
+            <a class="button" ng-click="input('7')">7</a>
+            <a class="button" ng-click="input('8')">8</a>
+            <a class="button" ng-click="input('9')">9</a>
+            <a class="button" ng-click="op('times')">x</a>
+        </div>
+        <div class="button-bar">
+        	<a class="button" ng-click="input('.')">.</a>
+            <a class="button" ng-click="input('0')">0</a>
+            <a id="bigbutton" class="button" ng-click="equal()">=</a>
+        </div>
+        <div class="button-bar">
+        <a class="button button-energized" ng-click="convert()">Convert</a>
+        </div>
+    </ion-content>
+</ion-view>

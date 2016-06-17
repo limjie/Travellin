@@ -97,27 +97,63 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('ChatsCtrl', function($scope, Chats) {
-    // With the new view caching in Ionic, Controllers are only called
-    // when they are recreated or on app start, instead of every page change.
-    // To listen for when this page is active (for example, to refresh data),
-    // listen for the $ionicView.enter event:
-    //
-    //$scope.$on('$ionicView.enter', function(e) {
-    //});
-
-    $scope.chats = Chats.all();
-    $scope.remove = function(chat) {
-        Chats.remove(chat);
+.controller('ConverterCtrl', function($scope, $http) {
+    $scope.xcurrency = 'USD';
+    $scope.x = '0';
+    $scope.acurrency = 'SGD';
+    $scope.a = '0';
+    $scope.y = '0';
+    $scope.opp = false;
+    $scope.startnew = true;
+    $scope.operation = null;
+    $scope.input = function(z) {
+        if ($scope.startnew) {
+            $scope.x = z;
+            $scope.startnew = false;
+        } else {
+            $scope.x += z;
+        }
     };
-})
-
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-    $scope.chat = Chats.get($stateParams.chatId);
-})
-
-.controller('AccountCtrl', function($scope) {
-    $scope.settings = {
-        enableFriends: true
+    $scope.clear = function() {
+        $scope.x = '0';
+        $scope.y = '0';
+        $scope.a = '0';
+        $scope.opp = false;
+        $scope.startnew = true;
+    };
+    $scope.backspace = function() {
+        if ($scope.x.substring($scope.x.length - 1) === '.') {
+            $scope.x = $scope.x.slice(0, -2);
+        } else {
+            $scope.x = $scope.x.slice(0, -1);
+        }
+    };
+    $scope.op = function(op) {
+        if ($scope.opp) {
+            $scope.equal();
+        }
+        $scope.opp = true;
+        $scope.y = $scope.x;
+        $scope.startnew = true;
+        $scope.operation = op;
+    };
+    $scope.equal = function() {
+        if ($scope.opp) {
+            if ($scope.operation === 'add') {
+                $scope.x = String(parseFloat($scope.x) + parseFloat($scope.y));
+            } else if ($scope.operation === 'minus') {
+                $scope.x = String(parseFloat($scope.x) - parseFloat($scope.y));
+            } else {
+                $scope.x = String(parseFloat($scope.x) * parseFloat($scope.y));
+            }
+            $scope.y = 0;
+            $scope.opp = false;
+            $scope.startnew = true;
+        }
+    };
+    $scope.convert = function() {
+        $http.get("http://apilayer.net/api/live?access_key=8e7946018bea837c863dde007e43baa7").success(function(data) {
+            $scope.a = $scope.x * data.quotes.USDSGD;
+        });
     };
 });
