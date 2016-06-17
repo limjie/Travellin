@@ -110,6 +110,7 @@ angular.module('starter.controllers', [])
         if ($scope.startnew) {
             $scope.x = z;
             $scope.startnew = false;
+            $scope.a = '0';
         } else {
             $scope.x += z;
         }
@@ -148,12 +149,14 @@ angular.module('starter.controllers', [])
             }
             $scope.y = 0;
             $scope.opp = false;
-            $scope.startnew = true;
         }
+        $scope.startnew = true;
     };
     $scope.convert = function() {
+        $scope.equal();
         $http.get("http://apilayer.net/api/live?access_key=8e7946018bea837c863dde007e43baa7").success(function(data) {
-            $scope.a = $scope.x * data.quotes.USDSGD;
+            $scope.a = ($scope.x * data.quotes.USDSGD).toFixed(2);
         });
+        $scope.startnew = true;
     };
 });
