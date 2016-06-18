@@ -1,0 +1,178 @@
+<ion-view view-title="Budget">
+    <ion-nav-buttons side="primary">
+        <button class="button" ng-click="addBudget()">
+            Add item
+        </button>
+    </ion-nav-buttons>
+  <ion-content>
+      <ion-list>
+        <ion-item ng-repeat="budget in budgets" class="item-icon-right">
+            <h2 ng-click="view(budget)">{{budget.name}}</h2>
+            <i class="icon ion-chevron-left icon-accessory"></i>
+            <ion-option-button class="button-energized" ng-click="edit(budget)">
+                Edit
+            </ion-option-button>
+            <ion-option-button class="button-assertive" ng-click="remove(budget)">
+                Delete
+            </ion-option-button>
+        </ion-item>
+        </ion-list>
+    
+  </ion-content>
+  <!-- Add modal-->
+   <script id="budgetAdd.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar bar-header bar-positive">
+                <h1 id="alpha" class="title">Add Budget</h1>
+            </ion-header-bar>
+            
+            <ion-content class="padding">
+                <div class="spacer" style="width: 300px; height: 80px;"></div>   
+                <div class="list">
+                    <label class="item item-input">
+                        <span class="input-label">Name:</span>
+                        <input ng-model="added.name" type="text">
+                    </label>
+                    <div class="spacer" style="width: 300px; height: 200px;"></div> 
+                    <div class="button-bar">
+                        <a class="button button-energized" ng-click="addBudgetconfirm(added)">Add</a>
+                        <a class="button button-dark" ng-click="budgetAdd.hide()">Cancel</a>
+                    </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>    
+ <!-- Edit Modal -->
+    <script id="budgetEdit.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar bar-header bar-energized">
+                <h1 id="alpha" class="title">Edit Budget</h1>
+            </ion-header-bar>
+            <ion-content class="padding">
+                <div class="list">
+                    <label class="item item-input">
+                        <span class="input-label">Name:</span>
+                        <input ng-model="editted.name" type="text" placeholder="{{current.name}}">
+                    </label>
+                    
+                    <div class="button-bar">
+                        <a class="button button-energized" ng-click="editBudget(editted)">Edit</a>
+                        <a class="button button-dark" ng-click="budgetEdit.hide()">Cancel</a>
+                    </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>        
+
+ <!-- View Modal -->
+    <script id="budgetView.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar bar-header bar-royal">
+                <button class="button button-primary button-positive" ng-click="budgetView.hide()">Back</button>
+                <h1 id="alpha" class="title">{{current.name}}</h1>
+                <button class="button button-primary button-positive" ng-click="addBudgetItem()">Add</button>
+            </ion-header-bar>
+            <ion-content>
+
+                <h4>Sort by:</h4>
+                <button class="button button-positive" ng-click="order = 'price'">Price</button>
+                <button class="button button-positive" ng-click="order = 'date'">Date</button>
+                <div class="row">
+                    <div class="col">Item </div>
+                    <div class="col">Date</div>
+                    <div class="col">Time</div>
+                    <div class="col">$</div>
+                    </div>
+                <ion-list>
+                    
+                    <ion-item ng-repeat="item in current.items | orderBy: order">
+                        <div class="row">
+                            <div class="col">{{item.itemName}}</div>
+                            <div class="col">{{item.date.getDate()+"/"+(item.date.getMonth()+1)+"/"+item.date.getFullYear()}}</div>
+                            <div class="col">{{item.date.getHours()+":"+item.date.getMinutes()}}</div>
+                            <div class="col">{{item.price}}</div>
+                           
+                            <i class="icon ion-chevron-left icon-accessory"></i>
+                            <ion-option-button class="button-energized" ng-click="editItem(item)">
+                                Edit
+                            </ion-option-button>
+                            <ion-option-button class="button-assertive" ng-click="removeItem(item)">
+                                Delete
+                            </ion-option-button>
+                        </div>
+                    </ion-item>
+                    
+                </ion-list>
+
+                <div class="row">
+                    <div class="col">Total Spent:</div>
+                    <div class="col"></div>
+                    <div class="col"></div>
+                    <div class="col" ng-bind="totalAmount"></div>
+                </div>    
+            </ion-content>
+    </script>    
+    
+ <!-- Add Item Modal -->
+    <script id="budgetItemAdd.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar bar-header bar-royal">
+                <h1 id="alpha" class="title">Add item</h1>
+            </ion-header-bar>
+            <ion-content class="padding">
+                <div class="list">
+                    <label class="item item-input">
+                        <span class="input-label">Item Name:</span>
+                        <input ng-model="addeditem.activity" type="text">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Date:</span>
+                        <input ng-model="addeditem.date" type="date">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Time:</span>
+                        <input ng-model="addeditem.time" type="time">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Price:</span>
+                        <input ng-model="addeditem.price" type="number">
+                    </label>
+                    <div class="button-bar">
+                        <a class="button button-energized" ng-click="addBudgetItemconfirm(addeditem)">Add</a>
+                        <a class="button button-dark" ng-click="budgetItemAdd.hide()">Cancel</a>
+                    </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>    
+
+ <!-- Edit Item Modal -->
+    <script id="budgetItemEdit.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar bar-header bar-royal">
+                <h1 id="alpha" class="title">Edit Item</h1>
+            </ion-header-bar>
+            <ion-content>
+            <div class="list">
+                    <label class="item item-input">
+                        <span class="input-label">Item Name:</span>
+                        <input ng-model="editteditem.itemName" type="text" placeholder="{{currentItem.itemName}}">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Date:</span>
+                        <input ng-model="editteditem.date" type="date" placeholder="{{currentItem.date}}">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Time:</span>
+                        <input ng-model="editteditem.time" type="time" placeholder="{{currentItem.time}}">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Price:</span>
+                        <input ng-model="editteditem.price" type="text" placeholder="{{currentItem.price}}">
+                    </label>
+
+                    <div class="button-bar">
+                        <a class="button button-energized" ng-click="editBudgetItemconfirm(editteditem)">Edit</a>
+                        <a class="button button-dark" ng-click="budgetItemEdit.hide()">Cancel</a>
+                    </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>   
+</ion-view>

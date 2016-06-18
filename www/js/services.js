@@ -66,4 +66,87 @@ angular.module('starter.services', [])
                 }
             }
         };
+    })
+   
+    .factory('Budgets', function() {
+        var budgets = [{
+            name: 'Entry 1',
+            items: [{
+                itemName: 'dinner',
+                date: new Date('25 Jun 2015 16:30:00 GMT+0800'),
+                price: 222
+            }]
+        }];
+        
+        return{
+            all: function() {
+                return budgets;
+            },
+            remove: function(budget) {
+                budgets.splice(budgets.indexOf(budget), 1);
+            },
+            removeItem: function(budgets, item) {
+                budgets.items.splice(budgets.items.indexOf(item), 1);
+            },
+            add: function(budget) {
+                budgets.push({
+                    name: budget.name,
+                });
+            },
+            addItem: function(budget, item) {
+                budget.items.push({
+                    itemName: item.itemName,
+                    date: item.date,
+                    price: item.price
+                });
+            },
+            
+            edit: function(budget, newBudget) {
+                if (newBudget.name !== undefined && newBudget.name !== '') {
+                    budget.name = newBudget.name;
+                }
+                
+            },
+            //what's "activity" over here? from code above
+            editItem: function(activity, editted) {
+                if(editted.itemName !== undefined && editted.itemName !== '') {
+                    activity.itemName = editted.itemName;
+                }
+                if(editted.price !== undefined && editted.price !== '') {
+                    activity.price = editted.price;
+                }
+                if (editted.date !== undefined && editted.date !== null) {
+                    activity.date = editted.date;
+                }
+            }
+        };
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     });

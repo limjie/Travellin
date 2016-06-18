@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('ItineraryCtrl', function($scope, $ionicModal, Itineraries) {
+.controller('ItineraryCtrl', function($scope, $ionicModal, Itineraries, $ionicListDelegate) {
     $scope.itineraries = Itineraries.all();
     $scope.remove = function(itinerary) {
         Itineraries.remove(itinerary);
@@ -31,6 +31,7 @@ angular.module('starter.controllers', [])
     $scope.editItinerary = function(itinerary) {
         Itineraries.edit($scope.current, itinerary);
         $scope.itineraryEdit.hide();
+        $ionicListDelegate.closeOptionButtons();
     };
     $scope.view = function(itinerary) {
         $scope.current = itinerary;
@@ -159,4 +160,94 @@ angular.module('starter.controllers', [])
         });
         $scope.startnew = true;
     };
+})
+
+
+
+.controller('BudgetCtrl', function($scope, $ionicModal, Budgets, $ionicListDelegate) {
+    $scope.budgets = Budgets.all();
+    $scope.totalAmount = 0;
+
+    $scope.getTotal = function(budget) {
+        for(item in budget.items) {
+            $scope.totalAmount += item.price;
+        }
+    }
+
+    $scope.remove = function(budget) {
+        Budgets.remove(budget);
+    };
+    $scope.addBudget = function() {
+        $ionicModal.fromTemplateUrl('budgetAdd.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+        }).then(function(modal) {
+            $scope.budgetAdd = modal;
+            $scope.budgetAdd.show();
+        });
+    };
+    $scope.addBudgetconfirm = function(budget) {
+        Budgets.add(budget);
+        $scope.budgetAdd.hide();
+    };
+    
+    $scope.edit = function(budget) {
+        $scope.current = budget;
+        $ionicModal.fromTemplateUrl('budgetEdit.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+        }).then(function(modal) {
+            $scope.budgetEdit = modal;
+            $scope.budgetEdit.show();
+        });
+    };
+    $scope.editBudget = function(budget) {
+        Budgets.edit($scope.current, budget);
+        $scope.budgetEdit.hide();
+        $ionicListDelegate.closeOptionButtons();
+    };
+    $scope.view = function(budget) {
+        $scope.current = budget;
+        $ionicModal.fromTemplateUrl('budgetView.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+        }).then(function(modal) {
+            $scope.budgetView = modal;
+            $scope.budgetView.show();
+        });
+    };
+    $scope.addBudgetItem = function() {
+        $ionicModal.fromTemplateUrl('budgetItemAdd.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+        }).then(function(modal) {
+            $scope.budgetItemAdd = modal;
+            $scope.budgetItemAdd.show();
+        });
+    };
+    $scope.addBudgetItemconfirm = function(budgetItem) {
+        Budgets.addItem($scope.current, budgetItem);
+        $scope.getTotal($scope.current);
+        $scope.budgetItemAdd.hide();
+    };
+    $scope.removeItem = function(budgetItem) {
+        Budgets.removeItem($scope.current, budgetItem);
+
+    };
+    $scope.editItem = function(budgetItem) {
+        $scope.currentItem = budgetItem;
+        $ionicModal.fromTemplateUrl('budgetItemEdit.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+        }).then(function(modal) {
+            $scope.budgetItemEdit = modal;
+            $scope.budgetItemEdit.show();
+        });
+    };
+    $scope.editBudgetItemconfirm = function(editted) {
+        Budgets.editItem($scope.currentItem, editted);
+        $scope.budgetItemEdit.hide();
+        $ionicListDelegate.closeOptionButtons();
+    };
+
 });
