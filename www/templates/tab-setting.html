@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<ion-view view-title="Settings">
+    <ion-content>
+        <ion-list>
+            <ion-toggle ng-model="setting.twentyfourhour" ng-checked="setting.twentyfourhour">
+                24 Hour
+            </ion-toggle>
+            <ion-toggle ng-model="setting.notification" ng-checked="setting.notification">
+                Notifications
+            </ion-toggle>
+            <span id="Beta">Account Settings</span>
+            <hr>
+            <div id="link">
+                <a href="https://www.google.com.sg/">Change Password</a>
+            </div>
+            <div class="button-bar">
+            	<a class="button button-assertive">Log Out</a>
+            </div>
+        </ion-list>
+    </ion-content>
+</ion-view>

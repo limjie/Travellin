@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('ItineraryCtrl', function($scope, $ionicModal, Itineraries, $ionicListDelegate) {
+.controller('ItineraryCtrl', function($scope, $ionicModal, Itineraries, $ionicListDelegate, Budgets) {
     $scope.itineraries = Itineraries.all();
     $scope.remove = function(itinerary) {
         Itineraries.remove(itinerary);
@@ -16,6 +16,7 @@ angular.module('starter.controllers', [])
     };
     $scope.addItineraryconfirm = function(itinerary) {
         Itineraries.add(itinerary);
+        Budgets.addtogether(itinerary);
         $scope.itineraryAdd.hide();
     };
     $scope.edit = function(itinerary) {
@@ -29,7 +30,9 @@ angular.module('starter.controllers', [])
         });
     };
     $scope.editItinerary = function(itinerary) {
+        var name = $scope.current.name;
         Itineraries.edit($scope.current, itinerary);
+        Budgets.edittogether(name, itinerary);
         $scope.itineraryEdit.hide();
         $ionicListDelegate.closeOptionButtons();
     };
@@ -162,18 +165,13 @@ angular.module('starter.controllers', [])
     };
 })
 
-
-
 .controller('BudgetCtrl', function($scope, $ionicModal, Budgets, $ionicListDelegate) {
     $scope.budgets = Budgets.all();
-    $scope.totalAmount = 0;
+    $scope.totalAmount = 222;
 
     $scope.getTotal = function(budget) {
-        for(item in budget.items) {
-            $scope.totalAmount += item.price;
-        }
-    }
-
+        $scope.totalAmount = Budgets.getTotal(budget);
+    };
     $scope.remove = function(budget) {
         Budgets.remove(budget);
     };
@@ -190,7 +188,6 @@ angular.module('starter.controllers', [])
         Budgets.add(budget);
         $scope.budgetAdd.hide();
     };
-    
     $scope.edit = function(budget) {
         $scope.current = budget;
         $ionicModal.fromTemplateUrl('budgetEdit.html', {
@@ -249,5 +246,11 @@ angular.module('starter.controllers', [])
         $scope.budgetItemEdit.hide();
         $ionicListDelegate.closeOptionButtons();
     };
+})
 
+.controller('SettingCtrl', function($scope) {
+    $scope.setting = {
+        twentyfourhour: true,
+        notification: true
+    };
 });

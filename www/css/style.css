@@ -8,8 +8,20 @@
     vertical-align: -20px;
     font-size: 30px;
 }
+
 #bigbutton {
-  width: 50%;
-  min-width: 50%;
+    width: 50%;
+    min-width: 50%;
 }
 
+#Beta {
+    font-size: 25px;
+    vertical-align: -15px;
+    padding-left: 15px;
+}
+
+#link {
+	font-size: 15px;
+	height: 40px;
+	padding-left: 15px;
+}
