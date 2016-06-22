@@ -71,6 +71,7 @@ angular.module('starter.services', [])
 .factory('Budgets', function() {
     var budgets = [{
         name: 'Itinerary 1',
+        amount: 5000,
         items: [{
             itemName: 'Dinner',
             date: new Date('25 Jun 2015 16:30:00 GMT+0800'),
@@ -97,6 +98,7 @@ angular.module('starter.services', [])
         add: function(budget) {
             budgets.push({
                 name: budget.name,
+                amount: budget.amount
             });
         },
         addtogether: function(itinerary) {
@@ -115,7 +117,9 @@ angular.module('starter.services', [])
             if (newBudget.name !== undefined && newBudget.name !== '') {
                 budget.name = newBudget.name;
             }
-
+            if (newBudget.amount !== undefined && newBudget.amount !== '') {
+                budget.amount = newBudget.amount;
+            }
         },
         edittogether: function(name, newitinerary) {
             for (var i = budgets.length - 1; i >= 0; i--) {

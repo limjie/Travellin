@@ -167,7 +167,7 @@ angular.module('starter.controllers', [])
 
 .controller('BudgetCtrl', function($scope, $ionicModal, Budgets, $ionicListDelegate) {
     $scope.budgets = Budgets.all();
-    $scope.totalAmount = 222;
+    $scope.totalAmount = 0;
 
     $scope.getTotal = function(budget) {
         $scope.totalAmount = Budgets.getTotal(budget);
