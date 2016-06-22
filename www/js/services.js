@@ -27,7 +27,8 @@ angular.module('starter.services', [])
                     name: itinerary.name,
                     country: itinerary.country,
                     from: itinerary.from,
-                    to: itinerary.to
+                    to: itinerary.to,
+                    items: []
                 });
             },
             additem: function(itinerary, activitytoadd) {
@@ -98,7 +99,8 @@ angular.module('starter.services', [])
         add: function(budget) {
             budgets.push({
                 name: budget.name,
-                amount: budget.amount
+                amount: budget.amount,
+                items: []
             });
         },
         addtogether: function(itinerary) {
