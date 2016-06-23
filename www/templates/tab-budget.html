@@ -68,6 +68,7 @@
         </ion-modal-view>
     </script>
     <!-- View Modal -->
+  
     <script id="budgetView.html" type="text/ng-template">
         <ion-modal-view>
             <ion-header-bar class="bar bar-header bar-royal">
@@ -75,7 +76,7 @@
                 <h1 id="alpha" class="title">{{current.name}}</h1>
                 <button class="button button-primary button-positive" ng-click="addBudgetItem()">Add</button>
             </ion-header-bar>
-            <ion-content>
+            <ion-content padding="true">
                 <h4>Sort by:</h4>
                 <button class="button button-positive" ng-click="order = 'price'">Price</button>
                 <button class="button button-positive" ng-click="order = 'date'">Date</button>
@@ -86,12 +87,12 @@
                     <div class="col">$</div>
                 </div>
                 <ion-list>
-                    <ion-item ng-repeat="item in current.items | orderBy: order">
+                    <ion-item ng-repeat="item in current.items | orderBy: order" style="margin: -14px; width: 118%">
                         <div class="row">
                             <div class="col">{{item.itemName}}</div>
-                            <div class="col">{{item.date.getDate()+"/"+(item.date.getMonth()+1)+"/"+item.date.getFullYear()}}</div>
-                            <div class="col">{{item.date.getHours()+":"+item.date.getMinutes()}}</div>
-                            <div class="col">{{item.price}}</div>
+                            <div class="col" style="margin-right: 25px">{{item.date.getDate()+"/"+(item.date.getMonth()+1)+"/"+item.date.getFullYear()}}</div>
+                            <div class="col" style="margin-right: 30px">{{item.date.getHours()+":"+item.date.getMinutes()}}</div>
+                            <div class="col" style="margin-right: 30px">{{item.price}}</div>
                             <i class="icon ion-chevron-left icon-accessory"></i>
                             <ion-option-button class="button-energized" ng-click="editItem(item)">
                                 Edit
@@ -102,19 +103,16 @@
                         </div>
                     </ion-item>
                 </ion-list>
-                <div class="row">
-                    <div class="col">Total Spent:</div>
-                    <div class="col"></div>
-                    <div class="col"></div>
-                    <div class="col" ng-bind="totalAmount"></div>
-                </div>
-                <div class="row">
-                    <div class="col">Amount Left:</div>
-                    <div class="col"></div>
-                    <div class="col"></div>
-                    <div class="col" ng-bind="current.amount - totalAmount"></div>
-                </div>
+                <ion-footer-bar align-title="left">
+                    <div class="row">
+                        <div style="float: left">Total Spent: ${{totalAmount}}</div>
+                        <div class="spacer" style="margin: 0 auto; width: 80px;"></div>
+                        <div style="float: right;">Amount Left: ${{current.amount - totalAmount}}</div>
+                    </div>   
+                </ion-footer-bar>   
             </ion-content>
+        </ion-modal-view>    
+         
     </script>
     <!-- Add Item Modal -->
     <script id="budgetItemAdd.html" type="text/ng-template">
