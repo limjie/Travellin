@@ -90,28 +90,38 @@
                 <button class="button button-primary button-positive" ng-click="addActivity()">Add</button>
             </ion-header-bar>
             <ion-content>
-                <div class="row">
-                    <div class="col">Date</div>
-                    <div class="col">Time</div>
-                    <div class="col">Activity</div>
-                    <div class="col">Remarks</div>
-                </div>
                 <ion-list>
-                    <ion-item ng-repeat="item in current.items">
-                        <div class="row">
-                            <div class="col">{{item.date.getDate()+"/"+(item.date.getMonth()+1)+"/"+item.date.getFullYear()}}</div>
-                            <div class="col">{{item.date.getHours()+":"+item.date.getMinutes()}}</div>
-                            <div class="col">{{item.activity}}</div>
-                            <div class="col">{{item.remarks}}</div>
-                            <i class="icon ion-chevron-left icon-accessory"></i>
+                    <ion-item>
+                        <ion-row>
+                            <ion-col style="margin-right: 50px">Date</ion-col>
+                            <ion-col style="margin-right: 40px">Time</ion-col>
+                            <ion-col style="margin-right: 40px">Activity</ion-col>
+                            <ion-col>Remarks</ion-col>
+
+                        </ion-row>
+                    </ion-item>         
+                </ion-list>        
+
+                <ion-list>
+                    <ion-item-sliding>
+                    <ion-item ng-repeat="item in current.items"  class="item item-text-omit">
+                        <ion-row>
+                            <ion-col >{{item.date.getDate()+"/"+(item.date.getMonth()+1)+"/"+item.date.getFullYear()}}</ion-col>
+                            <ion-col style="margin-left: 0.2cm">{{item.date.getHours()+":"+item.date.getMinutes()}}</ion-col>
+                            <ion-col style="margin-left: 0.5cm">{{item.activity}}</ion-col>
+                            <ion-col style="margin-left: 1cm">{{item.remarks}}</ion-col>
+                            
+                           
                             <ion-option-button class="button-energized" ng-click="edititem(item)">
                                 Edit
                             </ion-option-button>
                             <ion-option-button class="button-assertive" ng-click="removeitem(item)">
                                 Delete
                             </ion-option-button>
-                        </div>
+                            </ion-item-options>    
+                        </ion-row>
                     </ion-item>
+                    </ion-item-sliding>
                 </ion-list>
             </ion-content>
     </script>
