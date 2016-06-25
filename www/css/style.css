@@ -26,12 +26,48 @@
 	padding-left: 15px;
 }
 
-.alignleft {
-    float: right;
-    
 
+.scroll-content {
+  overflow: visible !important;
 }
 
-#itineraryRow {
-    margin-right: 40px;
+
+#converterLine1 {
+    padding: 3px;
+}
+
+#converterButton {
+    position: relative;
+    background-color: #AFEEEE;
+    border: black;
+    font-size: 24px;
+    color: black;
+    padding: 10px;
+    width: 100px;
+    text-align: center;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+#converterButton:after {
+    content: "";
+    background: #90EE90;
+    display: block;
+    position: absolute;
+    padding-top: 300%;
+    padding-left: 350%;
+    margin-left: -20px!important;
+    margin-top: -120%;
+    opacity: 0;
+    transition: all 0.8s
+}
+
+#converterButton:active:after {
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s
 }

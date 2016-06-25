@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<ion-view view-title="Budget">
+<ion-view view-title="Budget"> 
     <ion-nav-buttons side="primary">
         <button class="button" ng-click="addBudget()">
             Add Budget
         </button>
     </ion-nav-buttons>
-    <ion-content>
+    <ion-content padding="true" style="background: url(img/bkg-3.jpg) no-repeat center;background-size:cover;">
         <ion-list>
             <ion-item ng-repeat="budget in budgets" class="item-icon-right">
                 <h2 ng-click="view(budget)">{{budget.name}}, ${{budget.amount}}</h2>
@@ -22,10 +22,10 @@
     <!-- Add modal-->
     <script id="budgetAdd.html" type="text/ng-template">
         <ion-modal-view>
-            <ion-header-bar class="bar bar-header bar-positive">
+            <ion-header-bar class="bar bar-header bar-positive" style="background: url(img/bkg-3.jpg) no-repeat center;background-size:cover;">
                 <h1 id="alpha" class="title">Add Budget</h1>
             </ion-header-bar>
-            <ion-content class="padding">
+            <ion-content class="padding" style="background: url(img/bkg-3.jpg) no-repeat center;background-size:cover;">
                 <div class="spacer" style="width: 300px; height: 80px;"></div>
                 <div class="list">
                     <label class="item item-input">
@@ -47,10 +47,10 @@
     <!-- Edit Modal -->
     <script id="budgetEdit.html" type="text/ng-template">
         <ion-modal-view>
-            <ion-header-bar class="bar bar-header bar-energized">
+            <ion-header-bar class="bar bar-header bar-energized" style="background: url(img/bkg-3.jpg) no-repeat center;background-size:cover;">
                 <h1 id="alpha" class="title">Edit Budget</h1>
             </ion-header-bar>
-            <ion-content class="padding">
+            <ion-content padding="true" style="background: url(img/bkg-3.jpg) no-repeat center;background-size:cover;">
                 <div class="list">
                     <label class="item item-input">
                         <span class="input-label">Name:</span>
@@ -71,37 +71,49 @@
   
     <script id="budgetView.html" type="text/ng-template">
         <ion-modal-view>
-            <ion-header-bar class="bar bar-header bar-royal">
+            <ion-header-bar class="bar bar-header bar-light" style="background: url(img/bkg-3.jpg) no-repeat center;background-size:cover;">
                 <button class="button button-primary button-positive" ng-click="budgetView.hide()">Back</button>
                 <h1 id="alpha" class="title">{{current.name}}</h1>
                 <button class="button button-primary button-positive" ng-click="addBudgetItem()">Add</button>
             </ion-header-bar>
-            <ion-content padding="true">
+            <ion-content padding="true" style="background: url(img/bkg-3.jpg) no-repeat center;background-size:cover;">
                 <h4>Sort by:</h4>
                 <button class="button button-positive" ng-click="order = 'price'">Price</button>
                 <button class="button button-positive" ng-click="order = 'date'">Date</button>
-                <div class="row">
-                    <div class="col">Item </div>
-                    <div class="col">Date</div>
-                    <div class="col">Time</div>
-                    <div class="col">$</div>
-                </div>
+                
                 <ion-list>
-                    <ion-item ng-repeat="item in current.items | orderBy: order" style="margin: -14px; width: 118%">
-                        <div class="row">
-                            <div class="col">{{item.itemName}}</div>
-                            <div class="col" style="margin-right: 25px">{{item.date.getDate()+"/"+(item.date.getMonth()+1)+"/"+item.date.getFullYear()}}</div>
-                            <div class="col" style="margin-right: 30px">{{item.date.getHours()+":"+item.date.getMinutes()}}</div>
-                            <div class="col" style="margin-right: 30px">{{item.price}}</div>
-                            <i class="icon ion-chevron-left icon-accessory"></i>
+                    <ion-item>
+                        <ion-row>
+                            <ion-col style="margin-left: 5px">Item</ion-col>
+                            <ion-col style="margin-left: 40px">Date</ion-col>
+                            <ion-col style="margin-left: 60px">Time</ion-col>
+                            <ion-col style="margin-left: 1.7cm">$</ion-col>
+
+                        </ion-row>
+                    </ion-item>         
+                </ion-list>     
+                
+                <ion-list>
+                    <ion-item-sliding>
+                    <ion-item ng-repeat="item in current.items | orderBy: order" class="item item-text-omit">
+                        <ion-row>
+                            <ion-col style="margin-right: 5px">{{item.itemName}}</ion-col>
+                            <ion-col style="margin-left: 10px">{{item.date.getDate()+"/"+(item.date.getMonth()+1)+"/"+item.date.getFullYear()}}</ion-col>
+                            <ion-col style="margin-left: 30px">{{item.date.getHours()+":"+item.date.getMinutes()}}</ion-col>
+                            <ion-col style="margin-left: 1.5cm">{{item.price}}</ion-col>
+                          
+                            
+                           
                             <ion-option-button class="button-energized" ng-click="editItem(item)">
                                 Edit
                             </ion-option-button>
                             <ion-option-button class="button-assertive" ng-click="removeItem(item)">
                                 Delete
                             </ion-option-button>
-                        </div>
+                            </ion-item-options>    
+                        </ion-row>
                     </ion-item>
+                    </ion-item-sliding>
                 </ion-list>
                 <ion-footer-bar align-title="left">
                     <div class="row">
@@ -111,16 +123,16 @@
                     </div>   
                 </ion-footer-bar>   
             </ion-content>
-        </ion-modal-view>    
+        </ion-modal-view>   
          
     </script>
     <!-- Add Item Modal -->
     <script id="budgetItemAdd.html" type="text/ng-template">
         <ion-modal-view>
-            <ion-header-bar class="bar bar-header bar-royal">
+            <ion-header-bar class="bar bar-header bar-royal" style="background: url(img/bkg-3.jpg) no-repeat center;background-size:cover;">
                 <h1 id="alpha" class="title">Add item</h1>
             </ion-header-bar>
-            <ion-content class="padding">
+            <ion-content class="padding" style="background: url(img/bkg-3.jpg) no-repeat center;background-size:cover;">
                 <div class="list">
                     <label class="item item-input">
                         <span class="input-label">Item Name:</span>
@@ -148,10 +160,10 @@
     <!-- Edit Item Modal -->
     <script id="budgetItemEdit.html" type="text/ng-template">
         <ion-modal-view>
-            <ion-header-bar class="bar bar-header bar-royal">
+            <ion-header-bar class="bar bar-header bar-royal" style="background: url(img/bkg-3.jpg) no-repeat center;background-size:cover;">
                 <h1 id="alpha" class="title">Edit Item</h1>
             </ion-header-bar>
-            <ion-content>
+            <ion-content style="background: url(img/bkg-3.jpg) no-repeat center;background-size:cover;">
                 <div class="list">
                     <label class="item item-input">
                         <span class="input-label">Item Name:</span>
