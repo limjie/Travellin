@@ -7,6 +7,7 @@ angular.module('starter.services', [])
             to: new Date('15 Jul 2015'),
             items: [{
                 date: new Date('25 Jun 2015 16:30:00 GMT+0800'),
+                time: new Date('25 Jun 2015 16:30:00 GMT+0800'),
                 activity: 'Swimming',
                 remarks: 'Bring trunks',
                 notification: { set: true, message: 'Wake up!', time: new Date('25 Jun 2015 14:30:00 GMT+0800') }
@@ -35,7 +36,8 @@ angular.module('starter.services', [])
                 itinerary.items.push({
                     date: activitytoadd.date,
                     activity: activitytoadd.activity,
-                    remarks: activitytoadd.remarks
+                    remarks: activitytoadd.remarks,
+                    time: activitytoadd.time
                 });
             },
             edit: function(itinerary, newitinerary) {
@@ -65,6 +67,9 @@ angular.module('starter.services', [])
                 if (editted.date !== undefined && editted.date !== null) {
                     activity.date = editted.date;
                 }
+                if (editted.time !== undefined && editted.time !== null) {
+                    activity.time = editted.time;
+                }
             }
         };
     })
@@ -76,6 +81,7 @@ angular.module('starter.services', [])
         items: [{
             itemName: 'Dinner',
             date: new Date('25 Jun 2015 16:30:00 GMT+0800'),
+            time: new Date('25 Jun 2015 16:30:00 GMT+0800'),
             price: 222
         }]
     }];
@@ -105,12 +111,14 @@ angular.module('starter.services', [])
         },
         addtogether: function(itinerary) {
             budgets.push({
-                name: itinerary.name
+                name: itinerary.name,
+                items: []
             });
         },
         addItem: function(budget, item) {
             budget.items.push({
                 itemName: item.itemName,
+                time: item.time,
                 date: item.date,
                 price: item.price
             });
@@ -140,6 +148,9 @@ angular.module('starter.services', [])
             }
             if (editted.date !== undefined && editted.date !== null) {
                 activity.date = editted.date;
+            }
+            if (editted.time !== undefined && editted.time !== null) {
+                activity.time = editted.time;
             }
         }
     };

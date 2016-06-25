@@ -102,35 +102,40 @@ angular.module('starter.controllers', [])
 })
 
 .controller('ConverterCtrl', function($scope, $http) {
-    $scope.xcurrency = 'USD';
-    $scope.x = '0';
-    $scope.acurrency = 'SGD';
-    $scope.a = '0';
+    $scope.x = {
+        currency: "USD",
+        value: "0"
+    };
+    $scope.a = {
+        currency: "SGD",
+        value: "0"
+    };
     $scope.y = '0';
     $scope.opp = false;
     $scope.startnew = true;
     $scope.operation = null;
     $scope.input = function(z) {
-        if ($scope.startnew) {
-            $scope.x = z;
+        if ($scope.startnew && z !== '.') {
+            $scope.x.value = z;
             $scope.startnew = false;
-            $scope.a = '0';
+            $scope.a.value = '0';
         } else {
-            $scope.x += z;
+            $scope.x.value += z;
+            $scope.startnew = false;
         }
     };
     $scope.clear = function() {
-        $scope.x = '0';
+        $scope.x.value = '0';
         $scope.y = '0';
-        $scope.a = '0';
+        $scope.a.value = '0';
         $scope.opp = false;
         $scope.startnew = true;
     };
     $scope.backspace = function() {
-        if ($scope.x.substring($scope.x.length - 1) === '.') {
-            $scope.x = $scope.x.slice(0, -2);
+        if ($scope.x.value.substring($scope.x.value.length - 1) === '.') {
+            $scope.x.value = $scope.x.value.slice(0, -2);
         } else {
-            $scope.x = $scope.x.slice(0, -1);
+            $scope.x.value = $scope.x.value.slice(0, -1);
         }
     };
     $scope.op = function(op) {
@@ -138,18 +143,18 @@ angular.module('starter.controllers', [])
             $scope.equal();
         }
         $scope.opp = true;
-        $scope.y = $scope.x;
+        $scope.y = $scope.x.value;
         $scope.startnew = true;
         $scope.operation = op;
     };
     $scope.equal = function() {
         if ($scope.opp) {
             if ($scope.operation === 'add') {
-                $scope.x = String(parseFloat($scope.x) + parseFloat($scope.y));
+                $scope.x.value = String(parseFloat($scope.x.value) + parseFloat($scope.y));
             } else if ($scope.operation === 'minus') {
-                $scope.x = String(parseFloat($scope.x) - parseFloat($scope.y));
+                $scope.x.value = String(parseFloat($scope.y) - parseFloat($scope.x.value));
             } else {
-                $scope.x = String(parseFloat($scope.x) * parseFloat($scope.y));
+                $scope.x.value = String(parseFloat($scope.x.value) * parseFloat($scope.y));
             }
             $scope.y = 0;
             $scope.opp = false;
@@ -157,9 +162,20 @@ angular.module('starter.controllers', [])
         $scope.startnew = true;
     };
     $scope.convert = function() {
+        var con = $scope.x.currency.concat($scope.a.currency);
         $scope.equal();
         $http.get("http://apilayer.net/api/live?access_key=8e7946018bea837c863dde007e43baa7").success(function(data) {
-            $scope.a = ($scope.x * data.quotes.USDSGD).toFixed(2);
+            if ($scope.x.currency === "USD") {
+                $scope.a.value = ($scope.x.value * data.quotes[con]).toFixed(2);
+            } else if ($scope.a.currency === "USD") {
+                con = $scope.a.currency.concat($scope.x.currency);
+                $scope.a.value = ($scope.x.value * (1 / data.quotes[con])).toFixed(2);
+            } else {
+                con = "USD".concat($scope.x.currency);
+                var temp = $scope.x.value * (1 / data.quotes[con]);
+                con = "USD".concat($scope.a.currency);
+                $scope.a.value = (temp * data.quotes[con]).toFixed(2);
+            }
         });
         $scope.startnew = true;
     };
