@@ -97,30 +97,26 @@
                             <ion-col style="margin-right: 40px">Time</ion-col>
                             <ion-col style="margin-right: 40px">Activity</ion-col>
                             <ion-col>Remarks</ion-col>
-
-                        </ion-row>
-                    </ion-item>         
-                </ion-list>        
-
-                <ion-list>
-                    <ion-item-sliding>
-                    <ion-item ng-repeat="item in current.items"  class="item item-text-omit">
-                        <ion-row>
-                            <ion-col >{{item.date.getDate()+"/"+(item.date.getMonth()+1)+"/"+item.date.getFullYear()}}</ion-col>
-                            <ion-col style="margin-left: 0.2cm">{{item.time.getHours()+":"+item.time.getMinutes()}}</ion-col>
-                            <ion-col style="margin-left: 0.5cm">{{item.activity}}</ion-col>
-                            <ion-col style="margin-left: 1cm">{{item.remarks}}</ion-col>
-                            
-                           
-                            <ion-option-button class="button-energized" ng-click="edititem(item)">
-                                Edit
-                            </ion-option-button>
-                            <ion-option-button class="button-assertive" ng-click="removeitem(item)">
-                                Delete
-                            </ion-option-button>
-                            </ion-item-options>    
                         </ion-row>
                     </ion-item>
+                </ion-list>
+                <ion-list>
+                    <ion-item-sliding>
+                        <ion-item ng-repeat="item in current.items | orderBy:'date'" class="item item-text-omit">
+                            <ion-row>
+                                <ion-col>{{item.date.getDate()+"/"+(item.date.getMonth()+1)+"/"+item.date.getFullYear()}}</ion-col>
+                                <ion-col style="margin-left: 0.2cm">{{item.date.getHours()+":"+('0'+item.date.getMinutes()).slice(-2)}}</ion-col>
+                                <ion-col style="margin-left: 0.5cm">{{item.activity}}</ion-col>
+                                <ion-col style="margin-left: 1cm">{{item.remarks}}</ion-col>
+                                <ion-option-button class="button-energized" ng-click="edititem(item)">
+                                    Edit
+                                </ion-option-button>
+                                <ion-option-button class="button-assertive" ng-click="removeitem(item)">
+                                    Delete
+                                </ion-option-button>
+                                </ion-item-options>
+                            </ion-row>
+                        </ion-item>
                     </ion-item-sliding>
                 </ion-list>
             </ion-content>
@@ -164,7 +160,7 @@
                 <h1 id="alpha" class="title">Edit Activity</h1>
             </ion-header-bar>
             <ion-content>
-            <div class="list">
+                <div class="list">
                     <label class="item item-input">
                         <span class="input-label">Activity:</span>
                         <input ng-model="editteditem.activity" type="text" placeholder="{{currentitem.activity}}">
@@ -193,7 +189,7 @@
     <script id="notification.html" type="text/ng-template">
         <ion-modal-view>
             <ion-header-bar class="bar bar-header bar-royal">
-                <h1 id="alpha">Add Notification</h1>
+                <h1 id="alpha" class="title">Add Notification</h1>
             </ion-header-bar>
             <ion-content class="padding">
                 <div class="list">

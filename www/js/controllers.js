@@ -2,6 +2,13 @@ angular.module('starter.controllers', [])
 
 .controller('ItineraryCtrl', function($scope, $ionicModal, Itineraries, $ionicListDelegate, Budgets) {
     $scope.itineraries = Itineraries.all();
+    $scope.timeComparator = function (v1, v2) {
+        if (v1.date.getTime() == v2.date.getTime()) {
+            return (v1.time.getTime() < v2.time.getTime()) ? -1 : 1;
+        } else {
+            return (v1.date.getTime() < v2.date.getTime()) ? -1 : 1;
+        }
+    };
     $scope.remove = function(itinerary) {
         Itineraries.remove(itinerary);
     };
@@ -184,7 +191,7 @@ angular.module('starter.controllers', [])
 .controller('BudgetCtrl', function($scope, $ionicModal, Budgets, $ionicListDelegate) {
     $scope.budgets = Budgets.all();
     $scope.totalAmount = 0;
-
+    $scope.order = 'date';
     $scope.getTotal = function(budget) {
         $scope.totalAmount = Budgets.getTotal(budget);
     };
@@ -245,6 +252,7 @@ angular.module('starter.controllers', [])
     };
     $scope.removeItem = function(budgetItem) {
         Budgets.removeItem($scope.current, budgetItem);
+        $scope.getTotal($scope.current);
 
     };
     $scope.editItem = function(budgetItem) {
@@ -259,6 +267,7 @@ angular.module('starter.controllers', [])
     };
     $scope.editBudgetItemconfirm = function(editted) {
         Budgets.editItem($scope.currentItem, editted);
+        $scope.getTotal($scope.current);
         $scope.budgetItemEdit.hide();
         $ionicListDelegate.closeOptionButtons();
     };

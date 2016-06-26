@@ -7,7 +7,6 @@ angular.module('starter.services', [])
             to: new Date('15 Jul 2015'),
             items: [{
                 date: new Date('25 Jun 2015 16:30:00 GMT+0800'),
-                time: new Date('25 Jun 2015 16:30:00 GMT+0800'),
                 activity: 'Swimming',
                 remarks: 'Bring trunks',
                 notification: { set: true, message: 'Wake up!', time: new Date('25 Jun 2015 14:30:00 GMT+0800') }
@@ -34,7 +33,7 @@ angular.module('starter.services', [])
             },
             additem: function(itinerary, activitytoadd) {
                 itinerary.items.push({
-                    date: activitytoadd.date,
+                    date: new Date(activitytoadd.date.getFullYear(), activitytoadd.date.getMonth(), activitytoadd.date.getDate(), activitytoadd.time.getHours(), activitytoadd.time.getMinutes(), activitytoadd.time.getSeconds()),
                     activity: activitytoadd.activity,
                     remarks: activitytoadd.remarks,
                     time: activitytoadd.time
@@ -65,10 +64,13 @@ angular.module('starter.services', [])
                     activity.remarks = editted.remarks;
                 }
                 if (editted.date !== undefined && editted.date !== null) {
-                    activity.date = editted.date;
-                }
-                if (editted.time !== undefined && editted.time !== null) {
-                    activity.time = editted.time;
+                    if (editted.time !== undefined && editted.time !== null) {
+                        activity.date = new Date(editted.date.getFullYear(), editted.date.getMonth(), editted.date.getDate(), editted.time.getHours(), editted.time.getMinutes(), editted.time.getSeconds());
+                    } else {
+                        activity.date = new Date(editted.date.getFullYear(), editted.date.getMonth(), editted.date.getDate(), activity.date.getHours(), activity.date.getMinutes(), activity.date.getSeconds());
+                    }
+                } else if (editted.time !== undefined && editted.time !== null) {
+                    activity.date = new Date(activity.date.getFullYear(), activity.date.getMonth(), activity.date.getDate(), editted.time.getHours(), editted.time.getMinutes(), editted.time.getSeconds());
                 }
             }
         };
@@ -112,15 +114,15 @@ angular.module('starter.services', [])
         addtogether: function(itinerary) {
             budgets.push({
                 name: itinerary.name,
+                amount: 0,
                 items: []
             });
         },
         addItem: function(budget, item) {
             budget.items.push({
                 itemName: item.itemName,
-                time: item.time,
-                date: item.date,
-                price: item.price
+                date: new Date(item.date.getFullYear(), item.date.getMonth(), item.date.getDate(), item.time.getHours(), item.time.getMinutes(), item.time.getSeconds()),
+                price: (item.price === undefined) ? 0 : item.price
             });
         },
         edit: function(budget, newBudget) {
@@ -144,43 +146,17 @@ angular.module('starter.services', [])
                 activity.itemName = editted.itemName;
             }
             if (editted.price !== undefined && editted.price !== '') {
-                activity.price = editted.price;
+                activity.price = parseFloat(editted.price);
             }
             if (editted.date !== undefined && editted.date !== null) {
-                activity.date = editted.date;
-            }
-            if (editted.time !== undefined && editted.time !== null) {
-                activity.time = editted.time;
+                if (editted.time !== undefined && editted.time !== null) {
+                    activity.date = new Date(editted.date.getFullYear(), editted.date.getMonth(), editted.date.getDate(), editted.time.getHours(), editted.time.getMinutes(), editted.time.getSeconds());
+                } else {
+                    activity.date = new Date(editted.date.getFullYear(), editted.date.getMonth(), editted.date.getDate(), activity.date.getHours(), activity.date.getMinutes(), activity.date.getSeconds());
+                }
+            } else if (editted.time !== undefined && editted.time !== null) {
+                activity.date = new Date(activity.date.getFullYear(), activity.date.getMonth(), activity.date.getDate(), editted.time.getHours(), editted.time.getMinutes(), editted.time.getSeconds());
             }
         }
     };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 });
