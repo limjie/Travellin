@@ -26,8 +26,65 @@
     margin-left:15px;
 }
 
+.item .item-content {
+  background-color: transparent !important;
+}
+
+#budgetList {
+    background:rgba(255, 255, 255, 0) !important;
+    border:1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 12px;
+    box-shadow: 0px 1px 1px RGBA(0, 0, 0, 0.6);
+}
+
+.item-button-right, a.item.item-button-right{
+  padding-right: 0px !important;
+}
+
+
+#budgetItemText {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 20px;
+    color: #2C3539;
+    font-weight: 500; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 8em;
+}
+
+#budgetDateText {
+    font-size: 16px;  
+    color: black;
+    font-weight: 500;
+      
+}
+#budgetItemPriceText {
+    color: #2C3539;
+    font-weight: 500; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 8em;
+    top:19px !important;
+    text-align: right;
+    padding-left: 80px;
+}
+#ItineraryItemPriceText{
+    color: #2C3539;
+    font-weight: 500; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 8em;
+    top:19px !important;
+    text-align: right;
+    padding-left: 20px;
+}
+
 .col{
-white-space: nowrap;
+    white-space: nowrap;
     width: 12em;
     overflow: hidden;
     text-overflow: ellipsis;

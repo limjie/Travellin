@@ -35,6 +35,7 @@ angular.module('starter.controllers', [])
             $scope.itineraryEdit = modal;
             $scope.itineraryEdit.show();
         });
+        $ionicListDelegate.closeOptionButtons();
     };
     $scope.editItinerary = function(itinerary) {
         var name = $scope.current.name;
@@ -78,6 +79,7 @@ angular.module('starter.controllers', [])
             $scope.activityEdit = modal;
             $scope.activityEdit.show();
         });
+        $ionicListDelegate.closeOptionButtons();
     };
     $scope.editActivityconfirm = function(editted) {
         Itineraries.edititem($scope.currentitem, editted);
@@ -220,6 +222,7 @@ angular.module('starter.controllers', [])
             $scope.budgetEdit = modal;
             $scope.budgetEdit.show();
         });
+        $ionicListDelegate.closeOptionButtons();
     };
     $scope.editBudget = function(budget) {
         Budgets.edit($scope.current, budget);
@@ -264,6 +267,7 @@ angular.module('starter.controllers', [])
             $scope.budgetItemEdit = modal;
             $scope.budgetItemEdit.show();
         });
+        $ionicListDelegate.closeOptionButtons();
     };
     $scope.editBudgetItemconfirm = function(editted) {
         Budgets.editItem($scope.currentItem, editted);

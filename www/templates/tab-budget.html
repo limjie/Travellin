@@ -5,7 +5,7 @@
             Add Budget
         </button>
     </ion-nav-buttons>
-    <ion-content padding="true">
+    <ion-content padding="true" style="background: url(img/bg2.png) no-repeat center;background-size:cover;" class="has-header">
         <ion-list>
             <ion-item ng-repeat="budget in budgets" class="item-icon-right">
                 <h2 ng-click="view(budget)">{{budget.name}}, ${{budget.amount}}</h2>
@@ -25,7 +25,7 @@
             <ion-header-bar class="bar bar-header bar-positive">
                 <h1 id="alpha" class="title">Add Budget</h1>
             </ion-header-bar>
-            <ion-content class="padding">
+            <ion-content class="padding" style="background: url(img/bg2.png) no-repeat center;background-size:cover;" class="has-header">
                 <div class="spacer" style="width: 300px; height: 80px;"></div>
                 <div class="list">
                     <label class="item item-input">
@@ -50,7 +50,7 @@
             <ion-header-bar class="bar bar-header bar-energized">
                 <h1 id="alpha" class="title">Edit Budget</h1>
             </ion-header-bar>
-            <ion-content padding="true">
+            <ion-content padding="true" style="background: url(img/bg2.png) no-repeat center;background-size:cover;" class="has-header">
                 <div class="list">
                     <label class="item item-input">
                         <span class="input-label">Name:</span>
@@ -70,12 +70,12 @@
     <!-- View Modal -->
     <script id="budgetView.html" type="text/ng-template">
         <ion-modal-view>
-            <ion-header-bar class="bar bar-header bar-light">
+            <ion-header-bar class="bar bar-header bar-light"> 
                 <button class="button button-primary button-positive" ng-click="budgetView.hide()">Back</button>
                 <h1 id="alpha" class="title">{{current.name}}</h1>
                 <button class="button button-primary button-positive" ng-click="addBudgetItem()">Add</button>
             </ion-header-bar>
-            <ion-content padding="true">
+            <ion-content padding="true" style="background: url(img/bg2.png) no-repeat center;background-size:cover;" class="myList">
                 <div class="budgetSort">
                     <p>
                         Sort by:
@@ -83,6 +83,7 @@
                         <button class="button button-right button-positive" ng-click="order = 'date'">Date</button>
                     </p>
                 </div>
+                <!-- older representation of data in table form... has major alignment issue
                 <div class="row">
                     <div class="col" id="cols">Item</div>
                     <div class="col">Date</div>
@@ -91,8 +92,8 @@
                 </div>
                 <ion-list>
                     <ion-item-sliding>
-                        <ion-item ng-repeat="item in current.items | orderBy: order" class="item item-text-omit">
-                            <ion-row>
+                        <ion-item ng-repeat="item in current.items | orderBy: order" class="item item-trns">
+                            <ion-row >
                                 <ion-col id="ioncol" style="margin-right: 10px;">{{item.itemName}}</ion-col>
                                 <ion-col style="margin-left: 20px">{{item.date.getDate()+"/"+(item.date.getMonth()+1)+"/"+item.date.getFullYear()}}</ion-col>
                                 <ion-col style="margin-left: 40px">{{item.date.getHours()+":"+('0'+item.date.getMinutes()).slice(-2)}}</ion-col>
@@ -108,6 +109,26 @@
                         </ion-item>
                     </ion-item-sliding>
                 </ion-list>
+                -->
+                <ion-list>
+                    <ion-item ng-repeat="item in current.items | orderBy: order" type="item-text-wrap" class="item-button-right" id="budgetList">
+                        <h2 id="budgetItemText">{{item.itemName}}</h2>
+                        <p id="budgetDateText">{{item.date.getDate()+"/"+(item.date.getMonth()+1)+"/"+item.date.getFullYear()}}, {{item.date.getHours()+":"+('0'+item.date.getMinutes()).slice(-2)}}</p>
+
+                        <div class="buttons" id="budgetItemPriceText">${{item.price}}
+                        </div>
+
+                        <ion-option-button class="button-energized" ng-click="editItem(item)">
+                             Edit
+                        </ion-option-button>
+                        <ion-option-button class="button-assertive" ng-click="removeItem(item)">
+                             Delete
+                        </ion-option-button>
+
+                    </ion-item>
+                </ion-list>    
+
+
                 <ion-footer-bar align-title="left">
                     <div class="row">
                         <div style="float: left">Total Spent: ${{totalAmount}}</div>
@@ -124,7 +145,7 @@
             <ion-header-bar class="bar bar-header bar-royal">
                 <h1 id="alpha" class="title">Add item</h1>
             </ion-header-bar>
-            <ion-content class="padding" style="background: url(img/bkg-3.jpg) no-repeat center;background-size:cover;">
+            <ion-content class="padding" style="background: url(img/bg2.png) no-repeat center;background-size:cover;" class="has-header">
                 <div class="list">
                     <label class="item item-input">
                         <span class="input-label">Item Name:</span>
@@ -152,10 +173,10 @@
     <!-- Edit Item Modal -->
     <script id="budgetItemEdit.html" type="text/ng-template">
         <ion-modal-view>
-            <ion-header-bar class="bar bar-header bar-royal" style="background: url(img/bkg-3.jpg) no-repeat center;background-size:cover;">
+            <ion-header-bar class="bar bar-header bar-royal">
                 <h1 id="alpha" class="title">Edit Item</h1>
             </ion-header-bar>
-            <ion-content style="background: url(img/bkg-3.jpg) no-repeat center;background-size:cover;">
+            <ion-content style="background: url(img/bg2.png) no-repeat center;background-size:cover;" class="has-header">
                 <div class="list">
                     <label class="item item-input">
                         <span class="input-label">Item Name:</span>

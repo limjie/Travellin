@@ -5,7 +5,7 @@
             Add Itinerary
         </button>
     </ion-nav-buttons>
-    <ion-content>
+    <ion-content  padding = "true" style="background: url(img/bg1.png) no-repeat center;background-size:cover;" class="has-header">
         <ion-list>
             <ion-item ng-repeat="itinerary in itineraries" class="item-icon-right">
                 <h2 ng-click="view(itinerary)">{{itinerary.name}}, {{itinerary.from.getDate()+"/"+(itinerary.from.getMonth()+1)+"/"+itinerary.from.getFullYear()}} - {{itinerary.to.getDate()+"/"+(itinerary.to.getMonth()+1)+"/"+itinerary.to.getFullYear()}}</h2>
@@ -22,10 +22,10 @@
     <!-- Add Modal -->
     <script id="itineraryAdd.html" type="text/ng-template">
         <ion-modal-view>
-            <ion-header-bar class="bar bar-header bar-positive">
+            <ion-header-bar class="bar bar-header bar-light">
                 <h1 id="alpha" class="title">Add Itinerary</h1>
             </ion-header-bar>
-            <ion-content class="padding">
+            <ion-content class="padding" style="background: url(img/bg1.png) no-repeat center;background-size:cover;" class="has-header">
                 <div class="list">
                     <label class="item item-input">
                         <span class="input-label">Name:</span>
@@ -44,7 +44,7 @@
                         <input ng-model="added.to" type="date">
                     </label>
                     <div class="button-bar">
-                        <a class="button button-energized" ng-click="addItineraryconfirm(added)">Add</a>
+                        <a class="button button-positive" ng-click="addItineraryconfirm(added)">Add</a>
                         <a class="button button-dark" ng-click="itineraryAdd.hide()">Cancel</a>
                     </div>
             </ion-content>
@@ -56,7 +56,7 @@
             <ion-header-bar class="bar bar-header bar-energized">
                 <h1 id="alpha" class="title">Edit Itinerary</h1>
             </ion-header-bar>
-            <ion-content class="padding">
+            <ion-content class="padding" style="background: url(img/bg1.png) no-repeat center;background-size:cover;" class="has-header">
                 <div class="list">
                     <label class="item item-input">
                         <span class="input-label">Name:</span>
@@ -84,12 +84,13 @@
     <!-- View Modal -->
     <script id="itineraryView.html" type="text/ng-template">
         <ion-modal-view>
-            <ion-header-bar class="bar bar-header bar-royal">
+            <ion-header-bar class="bar bar-header bar-stable">
                 <button class="button button-primary button-positive" ng-click="itineraryView.hide()">Back</button>
                 <h1 id="alpha" class="title">{{current.name}}</h1>
                 <button class="button button-primary button-positive" ng-click="addActivity()">Add</button>
             </ion-header-bar>
-            <ion-content>
+            <ion-content style="background: url(img/bg1.png) no-repeat center;background-size:cover;" class="has-header">
+            <!--  older representation of data in table form... has major alignment issue
                 <ion-list>
                     <ion-item>
                         <ion-row>
@@ -119,6 +120,24 @@
                         </ion-item>
                     </ion-item-sliding>
                 </ion-list>
+                -->
+                <ion-list>
+                    <ion-item ng-repeat="item in current.items | orderBy:'date'" type="item-text-wrap" class="item-button-right" id="budgetList">
+                        <h2 id="budgetItemText">{{item.activity}}</h2>
+                        <p id="budgetDateText">{{item.date.getDate()+"/"+(item.date.getMonth()+1)+"/"+item.date.getFullYear()}}, {{item.date.getHours()+":"+('0'+item.date.getMinutes()).slice(-2)}}</p>
+
+                        <div class="buttons" align-right id="ItineraryItemPriceText">{{item.remarks}}
+                        </div>
+
+                        <ion-option-button class="button-energized" ng-click="edititem(item)">
+                             Edit
+                        </ion-option-button>
+                        <ion-option-button class="button-assertive" ng-click="removeitem(item)">
+                             Delete
+                        </ion-option-button>
+
+                    </ion-item>
+                </ion-list> 
             </ion-content>
     </script>
     <!-- Add Item Modal -->
@@ -127,7 +146,7 @@
             <ion-header-bar class="bar bar-header bar-royal">
                 <h1 id="alpha" class="title">Add Activity</h1>
             </ion-header-bar>
-            <ion-content class="padding">
+            <ion-content class="padding" style="background: url(img/bg1.png) no-repeat center;background-size:cover;" class="has-header">
                 <div class="list">
                     <label class="item item-input">
                         <span class="input-label">Activity:</span>
@@ -159,7 +178,7 @@
             <ion-header-bar class="bar bar-header bar-royal">
                 <h1 id="alpha" class="title">Edit Activity</h1>
             </ion-header-bar>
-            <ion-content>
+            <ion-content style="background: url(img/bg1.png) no-repeat center;background-size:cover;" class="has-header">
                 <div class="list">
                     <label class="item item-input">
                         <span class="input-label">Activity:</span>
@@ -191,7 +210,7 @@
             <ion-header-bar class="bar bar-header bar-royal">
                 <h1 id="alpha" class="title">Add Notification</h1>
             </ion-header-bar>
-            <ion-content class="padding">
+            <ion-content class="padding" style="background: url(img/bg1.png) no-repeat center;background-size:cover;" class="has-header">
                 <div class="list">
                     <label class="item item-input">
                         <span class="input-label">Message:</span>
@@ -215,7 +234,7 @@
             <ion-header-bar class="bar bar-header bar-royal">
                 <h1 id="alpha">Edit Notification</h1>
             </ion-header-bar>
-            <ion-content class="padding">
+            <ion-content class="padding" style="background: url(img/bg1.png) no-repeat center;background-size:cover;" class="has-header">
                 <div class="list">
                     <label class="item item-input">
                         <span class="input-label">Message:</span>
