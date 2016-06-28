@@ -50,6 +50,7 @@
     font-weight: 500; 
     overflow: hidden;
     text-overflow: ellipsis;
+    display: block;
     white-space: nowrap;
     width: 8em;
 }
@@ -65,17 +66,19 @@
     font-weight: 500; 
     overflow: hidden;
     text-overflow: ellipsis;
+    display: block;
     white-space: nowrap;
     width: 8em;
     top:19px !important;
     text-align: right;
     padding-left: 80px;
 }
-#ItineraryItemPriceText{
+#ItineraryItemRemarksText{
     color: #2C3539;
     font-weight: 500; 
     overflow: hidden;
     text-overflow: ellipsis;
+    display: block;
     white-space: nowrap;
     width: 8em;
     top:19px !important;

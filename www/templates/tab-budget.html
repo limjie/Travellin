@@ -75,7 +75,7 @@
                 <h1 id="alpha" class="title">{{current.name}}</h1>
                 <button class="button button-primary button-positive" ng-click="addBudgetItem()">Add</button>
             </ion-header-bar>
-            <ion-content padding="true" style="background: url(img/bg2.png) no-repeat center;background-size:cover;" class="myList">
+            <ion-content padding="true" style="background: url(img/bg2.png) no-repeat center;background-size:cover;" class="has-footer">
                 <div class="budgetSort">
                     <p>
                         Sort by:
@@ -129,14 +129,15 @@
                 </ion-list>    
 
 
-                <ion-footer-bar align-title="left">
+                
+            </ion-content>
+            <ion-footer-bar align-title="left" padding="true" style="background: transparent;">
                     <div class="row">
                         <div style="float: left">Total Spent: ${{totalAmount}}</div>
                         <div class="spacer" style="margin: 0 auto; width: 80px;"></div>
                         <div style="float: right;">Amount Left: ${{current.amount - totalAmount}}</div>
                     </div>
                 </ion-footer-bar>
-            </ion-content>
         </ion-modal-view>
     </script>
     <!-- Add Item Modal -->

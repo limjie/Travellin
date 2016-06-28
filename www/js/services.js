@@ -8,7 +8,7 @@ angular.module('starter.services', [])
             items: [{
                 date: new Date('25 Jun 2015 16:30:00 GMT+0800'),
                 activity: 'Swimming',
-                remarks: 'Bring trunks',
+                remarks: 'Bring swimmming trunks',
                 notification: { set: true, message: 'Wake up!', time: new Date('25 Jun 2015 14:30:00 GMT+0800') }
             }]
         }];
@@ -81,10 +81,15 @@ angular.module('starter.services', [])
         name: 'Itinerary 1',
         amount: 5000,
         items: [{
-            itemName: 'Dinner',
+            itemName: 'budget entry 1',
             date: new Date('25 Jun 2015 16:30:00 GMT+0800'),
             time: new Date('25 Jun 2015 16:30:00 GMT+0800'),
             price: 222
+        }, {
+            itemName: 'budget entry 2',
+            date: new Date('25 Jun 2015 17:30:00 GMT+0800'),
+            time: new Date('25 Jun 2015 17:30:00 GMT+0800'),
+            price: 333
         }]
     }];
     return {
