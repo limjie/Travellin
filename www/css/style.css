@@ -8,6 +8,7 @@
     box-shadow: 0px 1px 1px RGBA(0, 0, 0, 0.6);
     margin:0px 2px;
     margin-bottom:10px;
+    height: 62px;
 }
 
 .budgetSort p{
@@ -17,24 +18,30 @@
 }
 .budgetSort p button{
     font-size: 15px;
-    color:#fff;
-    background:#25323a;
-    padding:3px 40px;
+    color: black;
+    background: #54C571;
+    padding:2px 35px;
     text-decoration:none;
    
     border-radius:5px;
     margin-left:15px;
+
 }
 
-.item .item-content {
+/*.item .item-content {
   background-color: transparent !important;
 }
-
+*/
 #budgetList {
     background:rgba(255, 255, 255, 0) !important;
     border:1px solid rgba(255, 255, 255, 0.35);
-    border-radius: 12px;
+    border-radius: 4px; 
     box-shadow: 0px 1px 1px RGBA(0, 0, 0, 0.6);
+    height: 60px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    margin-right: 8px;
+    margin-left: 8px;
 }
 
 .item-button-right, a.item.item-button-right{
@@ -45,20 +52,26 @@
 #budgetItemText {
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 20px;
+    font-size: 16px;
     color: #2C3539;
+    font-size: 18px;
     font-weight: 500; 
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
     white-space: nowrap;
     width: 8em;
+    margin-bottom: 1px;
+    padding-bottom: 1px;
+    position: relative;
+    bottom: 4.5px;
 }
 
 #budgetDateText {
-    font-size: 16px;  
+    font-size: 13px;  
     color: black;
-    font-weight: 500;
+    font-weight: 400;
+
       
 }
 #budgetItemPriceText {
@@ -69,19 +82,20 @@
     display: block;
     white-space: nowrap;
     width: 8em;
-    top:19px !important;
+    top:12px !important;
     text-align: right;
     padding-left: 80px;
 }
 #ItineraryItemRemarksText{
     color: #2C3539;
+    font-size: 16px;
     font-weight: 500; 
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
     white-space: nowrap;
     width: 8em;
-    top:19px !important;
+    top:14px !important;
     text-align: right;
     padding-left: 20px;
 }
@@ -122,9 +136,9 @@
 }
 
 #link {
-	font-size: 15px;
-	height: 40px;
-	padding-left: 15px;
+    font-size: 15px;
+    height: 40px;
+    padding-left: 15px;
 }
 
 

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<ion-view view-title="Itinerary">
+<ion-view view-title="Itinerary test" ng-init="fetchItinerary()">
     <ion-nav-buttons side="primary">
         <button class="button" ng-click="addItinerary()">
             Add Itinerary
         </button>
     </ion-nav-buttons>
-    <ion-content  padding = "true" style="background: url(img/bg1.png) no-repeat center;background-size:cover;" class="has-header">
+    <ion-content padding="true" style="background: url(img/bg1.png) no-repeat center;background-size:cover;" class="has-header">
         <ion-list>
             <ion-item ng-repeat="itinerary in itineraries" class="item-icon-right">
                 <h2 ng-click="view(itinerary)">{{itinerary.name}}, {{itinerary.from.getDate()+"/"+(itinerary.from.getMonth()+1)+"/"+itinerary.from.getFullYear()}} - {{itinerary.to.getDate()+"/"+(itinerary.to.getMonth()+1)+"/"+itinerary.to.getFullYear()}}</h2>

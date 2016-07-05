@@ -1,14 +1,10 @@
 angular.module('starter.controllers', [])
 
-.controller('ItineraryCtrl', function($scope, $ionicModal, Itineraries, $ionicListDelegate, Budgets) {
-    $scope.itineraries = Itineraries.all();
-    $scope.timeComparator = function (v1, v2) {
-        if (v1.date.getTime() == v2.date.getTime()) {
-            return (v1.time.getTime() < v2.time.getTime()) ? -1 : 1;
-        } else {
-            return (v1.date.getTime() < v2.date.getTime()) ? -1 : 1;
-        }
+.controller('ItineraryCtrl', function($scope, $ionicModal, Itineraries, $ionicListDelegate, Budgets, localStorageService, $cordovaLocalNotification) {
+    $scope.fetchItinerary = function () {
+        $scope.itineraries = Itineraries.all();
     };
+      
     $scope.remove = function(itinerary) {
         Itineraries.remove(itinerary);
     };
@@ -190,8 +186,11 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('BudgetCtrl', function($scope, $ionicModal, Budgets, $ionicListDelegate) {
-    $scope.budgets = Budgets.all();
+.controller('BudgetCtrl', function($scope, $ionicModal, Budgets, $ionicListDelegate, localStorageService) {
+    $scope.fetchBudget = function () {
+        $scope.budgets = Budgets.all();
+    };
+
     $scope.totalAmount = 0;
     $scope.order = 'date';
     $scope.getTotal = function(budget) {
@@ -208,10 +207,12 @@ angular.module('starter.controllers', [])
             $scope.budgetAdd = modal;
             $scope.budgetAdd.show();
         });
+        localStorageService.set("budgetData", budgets);
     };
     $scope.addBudgetconfirm = function(budget) {
         Budgets.add(budget);
         $scope.budgetAdd.hide();
+        localStorageService.set("budgetData", budgets);
     };
     $scope.edit = function(budget) {
         $scope.current = budget;
@@ -247,16 +248,18 @@ angular.module('starter.controllers', [])
             $scope.budgetItemAdd = modal;
             $scope.budgetItemAdd.show();
         });
+        localStorageService.set("budgetData", budgets);
     };
     $scope.addBudgetItemconfirm = function(budgetItem) {
         Budgets.addItem($scope.current, budgetItem);
         $scope.getTotal($scope.current);
         $scope.budgetItemAdd.hide();
+        localStorageService.set("budgetData", budgets);
     };
     $scope.removeItem = function(budgetItem) {
         Budgets.removeItem($scope.current, budgetItem);
         $scope.getTotal($scope.current);
-
+        localStorageService.set("budgetData", budgets);
     };
     $scope.editItem = function(budgetItem) {
         $scope.currentItem = budgetItem;

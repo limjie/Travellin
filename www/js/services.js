@@ -1,6 +1,7 @@
 angular.module('starter.services', [])
-    .factory('Itineraries', function() {
-        var itineraries = [{
+    .factory('Itineraries', function(localStorageService) {
+        var itineraries = [ /*
+            {
             name: 'Itinerary 1',
             country: 'Singapore',
             from: new Date('15 Jun 2015'),
@@ -10,17 +11,24 @@ angular.module('starter.services', [])
                 activity: 'Swimming',
                 remarks: 'Bring swimmming trunks',
                 notification: { set: true, message: 'Wake up!', time: new Date('25 Jun 2015 14:30:00 GMT+0800') }
-            }]
-        }];
+            } ]
+        } */];
+        if (localStorageService.get("itineraryData")){
+            itineraries = localStorageService.get("itineraryData");
+        } else {
+            itineraries = [];
+        }
         return {
             all: function() {
-                return itineraries;
+                return itineraries;   
             },
             remove: function(itinerary) {
                 itineraries.splice(itineraries.indexOf(itinerary), 1);
+                localStorageService.set("itineraryData", itineraries);
             },
             removeitem: function(itinerary, activity) {
                 itinerary.items.splice(itinerary.items.indexOf(activity), 1);
+                localStorageService.set("itineraryData", itineraries);
             },
             add: function(itinerary) {
                 itineraries.push({
@@ -30,14 +38,16 @@ angular.module('starter.services', [])
                     to: itinerary.to,
                     items: []
                 });
+                localStorageService.set("itineraryData", itineraries);
             },
             additem: function(itinerary, activitytoadd) {
                 itinerary.items.push({
-                    date: new Date(activitytoadd.date.getFullYear(), activitytoadd.date.getMonth(), activitytoadd.date.getDate(), activitytoadd.time.getHours(), activitytoadd.time.getMinutes(), activitytoadd.time.getSeconds()),
+                    date: new Date(activitytoadd.date.getFullYear() + "-" + (activitytoadd.date.getMonth()+1) + "-" + activitytoadd.date.getDate() + " " + activitytoadd.time.getHours() + ":" + activitytoadd.time.getMinutes() + ":" + activitytoadd.time.getSeconds()),
                     activity: activitytoadd.activity,
                     remarks: activitytoadd.remarks,
                     time: activitytoadd.time
                 });
+                localStorageService.set("itineraryData", itineraries);
             },
             edit: function(itinerary, newitinerary) {
                 if (newitinerary.name !== undefined && newitinerary.name !== '') {
@@ -52,9 +62,11 @@ angular.module('starter.services', [])
                 if (newitinerary.to !== undefined && newitinerary.to !== null) {
                     itinerary.to = newitinerary.to;
                 }
+                localStorageService.set("itineraryData", itineraries);
             },
             addNotification: function(activity, notificationtoadd) {
                 activity.notification = { set: true, message: notificationtoadd.message, time: notificationtoadd.time };
+                localStorageService.set(itineraryData, itineraries);
             },
             edititem: function(activity, editted) {
                 if (editted.activity !== undefined && editted.activity !== '') {
@@ -72,12 +84,13 @@ angular.module('starter.services', [])
                 } else if (editted.time !== undefined && editted.time !== null) {
                     activity.date = new Date(activity.date.getFullYear(), activity.date.getMonth(), activity.date.getDate(), editted.time.getHours(), editted.time.getMinutes(), editted.time.getSeconds());
                 }
+                localStorageService.set("itineraryData", itineraries);
             }
         };
     })
 
-.factory('Budgets', function() {
-    var budgets = [{
+.factory('Budgets', function(localStorageService) {
+    var budgets = [ /*{
         name: 'Itinerary 1',
         amount: 5000,
         items: [{
@@ -91,7 +104,12 @@ angular.module('starter.services', [])
             time: new Date('25 Jun 2015 17:30:00 GMT+0800'),
             price: 333
         }]
-    }];
+    } */];
+    if (localStorageService.get("budgetData")) {
+        budgets = localStorageService.get("budgetData");
+    } else {
+        budgets = [];
+    }
     return {
         getTotal: function(budget) {
             var sum = 0;
@@ -105,9 +123,11 @@ angular.module('starter.services', [])
         },
         remove: function(budget) {
             budgets.splice(budgets.indexOf(budget), 1);
+            localStorageService.set("budgetData", budgets);
         },
         removeItem: function(budgets, item) {
             budgets.items.splice(budgets.items.indexOf(item), 1);
+            localStorageService.set("budgetData", budgets);
         },
         add: function(budget) {
             budgets.push({
@@ -115,6 +135,7 @@ angular.module('starter.services', [])
                 amount: budget.amount,
                 items: []
             });
+            localStorageService.set("budgetData", budgets);
         },
         addtogether: function(itinerary) {
             budgets.push({
@@ -122,6 +143,7 @@ angular.module('starter.services', [])
                 amount: 0,
                 items: []
             });
+            localStorageService.set("budgetData", budgets);
         },
         addItem: function(budget, item) {
             budget.items.push({
@@ -129,6 +151,7 @@ angular.module('starter.services', [])
                 date: new Date(item.date.getFullYear(), item.date.getMonth(), item.date.getDate(), item.time.getHours(), item.time.getMinutes(), item.time.getSeconds()),
                 price: (item.price === undefined) ? 0 : item.price
             });
+            localStorageService.set("budgetData", budgets);
         },
         edit: function(budget, newBudget) {
             if (newBudget.name !== undefined && newBudget.name !== '') {
@@ -137,6 +160,7 @@ angular.module('starter.services', [])
             if (newBudget.amount !== undefined && newBudget.amount !== '') {
                 budget.amount = newBudget.amount;
             }
+            localStorageService.set("budgetData", budgets);
         },
         edittogether: function(name, newitinerary) {
             for (var i = budgets.length - 1; i >= 0; i--) {
@@ -144,6 +168,7 @@ angular.module('starter.services', [])
                     budgets[i].name = newitinerary.name;
                 }
             }
+            localStorageService.set("budgetData", budgets);
         },
         //what's "activity" over here? from code above
         editItem: function(activity, editted) {
@@ -162,6 +187,7 @@ angular.module('starter.services', [])
             } else if (editted.time !== undefined && editted.time !== null) {
                 activity.date = new Date(activity.date.getFullYear(), activity.date.getMonth(), activity.date.getDate(), editted.time.getHours(), editted.time.getMinutes(), editted.time.getSeconds());
             }
+            localStorageService.set("budgetData", budgets);
         }
     };
 });
