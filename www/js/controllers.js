@@ -4,7 +4,13 @@ angular.module('starter.controllers', [])
     $scope.fetchItinerary = function () {
         $scope.itineraries = Itineraries.all();
     };
-      
+    $scope.notisetting = {
+        checked: false
+    };
+    $scope.counter = 0;
+    $scope.fetchItinerary = function() {
+        $scope.itineraries = Itineraries.all();
+    };
     $scope.remove = function(itinerary) {
         Itineraries.remove(itinerary);
     };
@@ -51,6 +57,7 @@ angular.module('starter.controllers', [])
         });
     };
     $scope.addActivity = function() {
+        $scope.notisetting.checked = false;
         $ionicModal.fromTemplateUrl('activityAdd.html', {
             scope: $scope,
             animation: 'slide-in-up'
@@ -60,7 +67,8 @@ angular.module('starter.controllers', [])
         });
     };
     $scope.addActivityconfirm = function(activity) {
-        Itineraries.additem($scope.current, activity);
+        $scope.counter++;
+        Itineraries.additem($scope.current, activity, $scope.counter, $scope.notisetting.checked, $scope.message, $scope.datetime);
         $scope.activityAdd.hide();
     };
     $scope.removeitem = function(activity) {
@@ -77,32 +85,60 @@ angular.module('starter.controllers', [])
         });
         $ionicListDelegate.closeOptionButtons();
     };
-    $scope.editActivityconfirm = function(editted) {
-        Itineraries.edititem($scope.currentitem, editted);
+    $scope.editActivityconfirm = function(editted, boo) {
+        if (editted !== undefined) {
+            Itineraries.edititem($scope.currentitem, editted, boo);
+        }
         $scope.activityEdit.hide();
     };
-    $scope.notification = function(item) {
-        $scope.currentitem = item;
-        $ionicModal.fromTemplateUrl('notification.html', {
-            scope: $scope,
-            animation: 'slide-in-up'
-        }).then(function(modal) {
-            $scope.notification = modal;
-            $scope.notification.show();
-        });
+    $scope.notify = function() {
+        if ($scope.notisetting.checked) {
+            $ionicModal.fromTemplateUrl('notification.html', {
+                scope: $scope,
+                animation: 'slide-in-up'
+            }).then(function(modal) {
+                $scope.notification = modal;
+                $scope.notification.show();
+            });
+        } else {
+            $cordovaLocalNotification.cancel($scope.counter + 1);
+        }
     };
     $scope.notificationconfirm = function(notification) {
-        Itineraries.addNotification($scope.currentitem, notification);
+        if (notification.message !== undefined && notification.message !== '') {
+            $scope.message = notification.message;
+        }
+        if (notification.date !== undefined && notification.date !== null) {
+            $scope.datetime = notification.date;
+        }
+        $cordovaLocalNotification.schedule({
+            id: $scope.counter + 1,
+            text: notification.message,
+            at: notification.date
+        });
         $scope.notification.hide();
     };
-    $scope.editnotification = function() {
-        $ionicModal.fromTemplateUrl('editnotification.html', {
-            scope: $scope,
-            animation: 'slide-in-up'
-        }).then(function(modal) {
-            $scope.editnotification = modal;
-            $scope.editnotification.show();
+    $scope.editnotify = function(boo) {
+        if (boo) {
+            $ionicModal.fromTemplateUrl('editnotification.html', {
+                scope: $scope,
+                animation: 'slide-in-up'
+            }).then(function(modal) {
+                $scope.editnotification = modal;
+                $scope.editnotification.show();
+            });
+        } else {
+            $cordovaLocalNotification.cancel($scope.currentitem.id);
+        }
+    };
+    $scope.editnotificationconfirm = function(notification) {
+        $cordovaLocalNotification.cancel($scope.currentitem.id);
+        $cordovaLocalNotification.schedule({
+            id: $scope.currentitem.id,
+            text: (notification.message !== undefined && notification.message !== '') ? notification.message : $scope.currentitem.notification.message,
+            at: (notification.date !== undefined && notification.date !== null) ? notification.date : $scope.currentitem.notification.date
         });
+        $scope.editnotification.hide();
     };
 })
 
@@ -187,10 +223,9 @@ angular.module('starter.controllers', [])
 })
 
 .controller('BudgetCtrl', function($scope, $ionicModal, Budgets, $ionicListDelegate, localStorageService) {
-    $scope.fetchBudget = function () {
+    $scope.fetchBudget = function() {
         $scope.budgets = Budgets.all();
     };
-
     $scope.totalAmount = 0;
     $scope.order = 'date';
     $scope.getTotal = function(budget) {

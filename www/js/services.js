@@ -7,10 +7,11 @@ angular.module('starter.services', [])
             from: new Date('15 Jun 2015'),
             to: new Date('15 Jul 2015'),
             items: [{
+                id: 0,
                 date: new Date('25 Jun 2015 16:30:00 GMT+0800'),
                 activity: 'Swimming',
                 remarks: 'Bring swimmming trunks',
-                notification: { set: true, message: 'Wake up!', time: new Date('25 Jun 2015 14:30:00 GMT+0800') }
+                notification: true }
             } ]
         } */];
         if (localStorageService.get("itineraryData")){
@@ -40,12 +41,18 @@ angular.module('starter.services', [])
                 });
                 localStorageService.set("itineraryData", itineraries);
             },
-            additem: function(itinerary, activitytoadd) {
+            additem: function(itinerary, activitytoadd, counter, notisetting, notimessage, datetime) {
                 itinerary.items.push({
+                    id: counter,
                     date: new Date(activitytoadd.date.getFullYear() + "-" + (activitytoadd.date.getMonth()+1) + "-" + activitytoadd.date.getDate() + " " + activitytoadd.time.getHours() + ":" + activitytoadd.time.getMinutes() + ":" + activitytoadd.time.getSeconds()),
                     activity: activitytoadd.activity,
                     remarks: activitytoadd.remarks,
-                    time: activitytoadd.time
+                    time: activitytoadd.time,
+                    notification: {
+                        checked: notisetting,
+                        message: notimessage,
+                        date: datetime
+                    }
                 });
                 localStorageService.set("itineraryData", itineraries);
             },
@@ -68,7 +75,7 @@ angular.module('starter.services', [])
                 activity.notification = { set: true, message: notificationtoadd.message, time: notificationtoadd.time };
                 localStorageService.set(itineraryData, itineraries);
             },
-            edititem: function(activity, editted) {
+            edititem: function(activity, editted, boo) {
                 if (editted.activity !== undefined && editted.activity !== '') {
                     activity.activity = editted.activity;
                 }
@@ -84,6 +91,7 @@ angular.module('starter.services', [])
                 } else if (editted.time !== undefined && editted.time !== null) {
                     activity.date = new Date(activity.date.getFullYear(), activity.date.getMonth(), activity.date.getDate(), editted.time.getHours(), editted.time.getMinutes(), editted.time.getSeconds());
                 }
+                activity.notification.checked = boo;
                 localStorageService.set("itineraryData", itineraries);
             }
         };

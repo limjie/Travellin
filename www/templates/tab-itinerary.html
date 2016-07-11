@@ -90,54 +90,20 @@
                 <button class="button button-primary button-positive" ng-click="addActivity()">Add</button>
             </ion-header-bar>
             <ion-content style="background: url(img/bg1.png) no-repeat center;background-size:cover;" class="has-header">
-            <!--  older representation of data in table form... has major alignment issue
-                <ion-list>
-                    <ion-item>
-                        <ion-row>
-                            <ion-col style="margin-right: 50px">Date</ion-col>
-                            <ion-col style="margin-right: 40px">Time</ion-col>
-                            <ion-col style="margin-right: 40px">Activity</ion-col>
-                            <ion-col>Remarks</ion-col>
-                        </ion-row>
-                    </ion-item>
-                </ion-list>
-                <ion-list>
-                    <ion-item-sliding>
-                        <ion-item ng-repeat="item in current.items | orderBy:'date'" class="item item-text-omit">
-                            <ion-row>
-                                <ion-col>{{item.date.getDate()+"/"+(item.date.getMonth()+1)+"/"+item.date.getFullYear()}}</ion-col>
-                                <ion-col style="margin-left: 0.2cm">{{item.date.getHours()+":"+('0'+item.date.getMinutes()).slice(-2)}}</ion-col>
-                                <ion-col style="margin-left: 0.5cm">{{item.activity}}</ion-col>
-                                <ion-col style="margin-left: 1cm">{{item.remarks}}</ion-col>
-                                <ion-option-button class="button-energized" ng-click="edititem(item)">
-                                    Edit
-                                </ion-option-button>
-                                <ion-option-button class="button-assertive" ng-click="removeitem(item)">
-                                    Delete
-                                </ion-option-button>
-                                </ion-item-options>
-                            </ion-row>
-                        </ion-item>
-                    </ion-item-sliding>
-                </ion-list>
-                -->
                 <ion-list>
                     <ion-item ng-repeat="item in current.items | orderBy:'date'" type="item-text-wrap" class="item-button-right" id="budgetList">
                         <h2 id="budgetItemText">{{item.activity}}</h2>
                         <p id="budgetDateText">{{item.date.getDate()+"/"+(item.date.getMonth()+1)+"/"+item.date.getFullYear()}}, {{item.date.getHours()+":"+('0'+item.date.getMinutes()).slice(-2)}}</p>
-
                         <div class="buttons" align-right id="ItineraryItemRemarksText">{{item.remarks}}
                         </div>
-
                         <ion-option-button class="button-energized" ng-click="edititem(item)">
-                             Edit
+                            Edit
                         </ion-option-button>
                         <ion-option-button class="button-assertive" ng-click="removeitem(item)">
-                             Delete
+                            Delete
                         </ion-option-button>
-
                     </ion-item>
-                </ion-list> 
+                </ion-list>
             </ion-content>
     </script>
     <!-- Add Item Modal -->
@@ -164,7 +130,7 @@
                         <span class="input-label">Remarks:</span>
                         <input ng-model="addeditem.remarks" type="text">
                     </label>
-                    <ion-toggle toggle-class="toggle-positive" ng-model="addeditem.notification.set" ng-checked="addeditem.notification.set" ng-click="notification(item)">Notification</ion-toggle>
+                    <ion-toggle toggle-class="toggle-positive" ng-model="notisetting.checked" ng-change="notify()">Notification</ion-toggle>
                     <div class="button-bar">
                         <a class="button button-energized" ng-click="addActivityconfirm(addeditem)">Add</a>
                         <a class="button button-dark" ng-click="activityAdd.hide()">Cancel</a>
@@ -196,15 +162,15 @@
                         <span class="input-label">Remarks:</span>
                         <input ng-model="editteditem.remarks" type="text" placeholder="{{currentitem.remarks}}">
                     </label>
-                    <ion-toggle toggle-class="toggle-positive" ng-model="currentitem.notification.set" ng-checked="currentitem.notification.set" ng-click="editnotification()">Notification</ion-toggle>
+                    <ion-toggle toggle-class="toggle-positive" ng-model="currentitem.notification.checked" ng-change="editnotify(currentitem.notification.checked)">Notification</ion-toggle>
                     <div class="button-bar">
-                        <a class="button button-energized" ng-click="editActivityconfirm(editteditem)">Edit</a>
+                        <a class="button button-energized" ng-click="editActivityconfirm(editteditem, currentitem.notification.checked);">Edit</a>
                         <a class="button button-dark" ng-click="activityEdit.hide()">Cancel</a>
                     </div>
             </ion-content>
         </ion-modal-view>
     </script>
-    <!-- Notification Modal -->
+    <!-- Add Notification Modal -->
     <script id="notification.html" type="text/ng-template">
         <ion-modal-view>
             <ion-header-bar class="bar bar-header bar-royal">
@@ -217,36 +183,36 @@
                         <input ng-model="noti.message" type="text">
                     </label>
                     <label class="item item-input">
-                        <span class="input-label">Time before:</span>
-                        <input type="time" ng-model="noti.time">
+                        <span class="input-label">Date & Time:</span>
+                        <input type="datetime-local" ng-model="noti.date">
                     </label>
                     <div class="button-bar">
                         <a class="button button-energized" ng-click="notificationconfirm(noti)">Add</a>
-                        <a class="button button-dark" ng-click="notification.hide()">Cancel</a>
+                        <a class="button button-dark" ng-click="notisetting.checked = false; notification.hide()">Cancel</a>
                     </div>
                 </div>
             </ion-content>
         </ion-modal-view>
     </script>
-    <!-- Notification Modal -->
-    <script type="text/ng-template">
+    <!-- Edit Notification Modal -->
+    <script id="editnotification.html" type="text/ng-template">
         <ion-modal-view>
             <ion-header-bar class="bar bar-header bar-royal">
-                <h1 id="alpha">Edit Notification</h1>
+                <h1 id="alpha" class="title">Edit Notification</h1>
             </ion-header-bar>
             <ion-content class="padding" style="background: url(img/bg1.png) no-repeat center;background-size:cover;" class="has-header">
                 <div class="list">
                     <label class="item item-input">
                         <span class="input-label">Message:</span>
-                        <input ng-model="noti.message" type="text" placeholder="{{currentitem.notification.message}}">
+                        <input ng-model="noti.message" type="text">
                     </label>
                     <label class="item item-input">
-                        <span class="input-label">Time before:</span>
-                        <input type="time" ng-model="noti.time">
+                        <span class="input-label">Date:</span>
+                        <input type="datetime-local" ng-model="noti.date">
                     </label>
                     <div class="button-bar">
                         <a class="button button-energized" ng-click="editnotificationconfirm(noti)">Add</a>
-                        <a class="button button-dark" ng-click="editnotification.hide()">Cancel</a>
+                        <a class="button button-dark" ng-click="currentitem.notification.checked = false; editnotification.hide()">Cancel</a>
                     </div>
                 </div>
             </ion-content>
