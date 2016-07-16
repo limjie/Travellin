@@ -16,11 +16,17 @@ angular.module('starter.services', [])
         } */];
         if (localStorageService.get("itineraryData")){
             itineraries = localStorageService.get("itineraryData");
-        } else {
-            itineraries = [];
-        }
+        } 
         return {
             all: function() {
+                for(var i in itineraries){
+                    itineraries[i].from = new Date(itineraries[i].from);
+                    itineraries[i].to = new Date(itineraries[i].to);
+                    for (var j in itineraries[i].items) {
+                        itineraries[i].items[j].date = new Date(itineraries[i].items[j].date);
+                        itineraries[i].items[j].time = new Date(itineraries[i].items[j].time);
+                    }
+                }
                 return itineraries;   
             },
             remove: function(itinerary) {
@@ -115,8 +121,6 @@ angular.module('starter.services', [])
     } */];
     if (localStorageService.get("budgetData")) {
         budgets = localStorageService.get("budgetData");
-    } else {
-        budgets = [];
     }
     return {
         getTotal: function(budget) {
@@ -127,6 +131,11 @@ angular.module('starter.services', [])
             return sum;
         },
         all: function() {
+            for(var i in budgets) {
+                for(var j in budgets[i].items){
+                    budgets[i].items[j].date = new Date(budgets[i].items[j].date);
+                }
+            }
             return budgets;
         },
         remove: function(budget) {
