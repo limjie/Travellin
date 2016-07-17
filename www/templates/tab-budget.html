@@ -164,6 +164,16 @@
                         <span class="input-label">Price:</span>
                         <input ng-model="addeditem.price" type="number">
                     </label>
+                    <label class="item item-input item-select">
+                        <span class="input-label">Categories:</span>
+                        <select class="button" ng-model="addeditem.category">
+                            <option value="Food">Food</option>
+                            <option value="Accomodation">Accomodation</option>
+                            <option value="Transport">Transport</option>
+                            <option value="Shopping">Shopping</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </label>
                     <div class="button-bar">
                         <a class="button button-energized" ng-click="addBudgetItemconfirm(addeditem)">Add</a>
                         <a class="button button-dark" ng-click="budgetItemAdd.hide()">Cancel</a>
@@ -195,8 +205,18 @@
                         <span class="input-label">Price:</span>
                         <input ng-model="editteditem.price" type="text" placeholder="{{currentItem.price}}">
                     </label>
+                    <label class="item item-input item-select">
+                        <span class="input-label">Categories:</span>
+                        <select class="button" ng-model="currentItem.category">
+                            <option value="Food">Food</option>
+                            <option value="Accomodation">Accomodation</option>
+                            <option value="Transport">Transport</option>
+                            <option value="Shopping">Shopping</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </label>
                     <div class="button-bar">
-                        <a class="button button-energized" ng-click="editBudgetItemconfirm(editteditem)">Edit</a>
+                        <a class="button button-energized" ng-click="editteditem.category = currentItem.category; editBudgetItemconfirm(editteditem);">Edit</a>
                         <a class="button button-dark" ng-click="budgetItemEdit.hide()">Cancel</a>
                     </div>
             </ion-content>

@@ -111,12 +111,14 @@ angular.module('starter.services', [])
             itemName: 'budget entry 1',
             date: new Date('25 Jun 2015 16:30:00 GMT+0800'),
             time: new Date('25 Jun 2015 16:30:00 GMT+0800'),
-            price: 222
+            price: 222,
+            category: Shopping
         }, {
             itemName: 'budget entry 2',
             date: new Date('25 Jun 2015 17:30:00 GMT+0800'),
             time: new Date('25 Jun 2015 17:30:00 GMT+0800'),
-            price: 333
+            price: 333,
+            catgeory: Food
         }]
     } */];
     if (localStorageService.get("budgetData")) {
@@ -166,7 +168,8 @@ angular.module('starter.services', [])
             budget.items.push({
                 itemName: item.itemName,
                 date: new Date(item.date.getFullYear(), item.date.getMonth(), item.date.getDate(), item.time.getHours(), item.time.getMinutes(), item.time.getSeconds()),
-                price: (item.price === undefined) ? 0 : item.price
+                price: (item.price === undefined) ? 0 : item.price,
+                category: item.category
             });
             localStorageService.set("budgetData", budgets);
         },
@@ -203,6 +206,9 @@ angular.module('starter.services', [])
                 }
             } else if (editted.time !== undefined && editted.time !== null) {
                 activity.date = new Date(activity.date.getFullYear(), activity.date.getMonth(), activity.date.getDate(), editted.time.getHours(), editted.time.getMinutes(), editted.time.getSeconds());
+            }
+            if (editted.category !== undefined && editted.category!== null) {
+                activity.category = editted.category;
             }
             localStorageService.set("budgetData", budgets);
         }
