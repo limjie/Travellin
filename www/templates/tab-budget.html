@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <ion-view view-title="Budget" ng-init="fetchBudget()">
     <ion-nav-buttons side="primary">
-        <button class="button" ng-click="addBudget()">
-            Add Budget
+        <button class="button icon ion-android-add" ng-click="addBudget()">
         </button>
     </ion-nav-buttons>
     <ion-content padding="true" style="background: url(img/bg2.png) no-repeat center;background-size:cover;" class="has-header">
@@ -10,11 +9,9 @@
             <ion-item ng-repeat="budget in budgets" class="item-icon-right">
                 <h2 ng-click="view(budget)">{{budget.name}}, ${{budget.amount}}</h2>
                 <i class="icon ion-chevron-left icon-accessory"></i>
-                <ion-option-button class="button-energized" ng-click="edit(budget)">
-                    Edit
+                <ion-option-button class="button-energized ion-android-create" ng-click="edit(budget)">
                 </ion-option-button>
-                <ion-option-button class="button-assertive" ng-click="remove(budget)">
-                    Delete
+                <ion-option-button class="button-assertive ion-android-delete" ng-click="remove(budget)">
                 </ion-option-button>
             </ion-item>
         </ion-list>
@@ -81,55 +78,25 @@
                         Sort by:
                         <button class="button button-right button-positive" ng-click="order = 'price'">Price</button>
                         <button class="button button-right button-positive" ng-click="order = 'date'">Date</button>
+                        <button class="button icon ion-ios-pie-outline" ng-click="chart(current)" style="background-color: white;"></button>
                     </p>
                 </div>
-                <!-- older representation of data in table form... has major alignment issue
-                <div class="row">
-                    <div class="col" id="cols">Item</div>
-                    <div class="col">Date</div>
-                    <div class="col">Time</div>
-                    <div class="col">Price($)</div>
-                </div>
-                <ion-list>
-                    <ion-item-sliding>
-                        <ion-item ng-repeat="item in current.items | orderBy: order" class="item item-trns">
-                            <ion-row >
-                                <ion-col id="ioncol" style="margin-right: 10px;">{{item.itemName}}</ion-col>
-                                <ion-col style="margin-left: 20px">{{item.date.getDate()+"/"+(item.date.getMonth()+1)+"/"+item.date.getFullYear()}}</ion-col>
-                                <ion-col style="margin-left: 40px">{{item.date.getHours()+":"+('0'+item.date.getMinutes()).slice(-2)}}</ion-col>
-                                <ion-col style="margin-left: 1cm">{{item.price}}</ion-col>
-                                <ion-option-button class="button-energized" ng-click="editItem(item)">
-                                    Edit
-                                </ion-option-button>
-                                <ion-option-button class="button-assertive" ng-click="removeItem(item)">
-                                    Delete
-                                </ion-option-button>
-                                </ion-item-options>
-                            </ion-row>
-                        </ion-item>
-                    </ion-item-sliding>
-                </ion-list>
-                -->
+                
                 <ion-list>
                     <ion-item ng-repeat="item in current.items | orderBy: order" type="item-text-wrap" class="item-button-right" id="budgetList">
-                        <h2 id="budgetItemText">{{item.itemName}}</h2>
+                        <h2 id="budgetItemText">{{item.itemName}} , [{{item.category}}]</h2>
                         <p id="budgetDateText">{{item.date.getDate()+"/"+(item.date.getMonth()+1)+"/"+item.date.getFullYear()}}, {{item.date.getHours()+":"+('0'+item.date.getMinutes()).slice(-2)}}</p>
 
                         <div class="buttons" id="budgetItemPriceText">${{item.price}}
                         </div>
 
-                        <ion-option-button class="button-energized" ng-click="editItem(item)">
-                             Edit
+                        <ion-option-button class="button-energized ion-android-create" ng-click="editItem(item)">
                         </ion-option-button>
-                        <ion-option-button class="button-assertive" ng-click="removeItem(item)">
-                             Delete
+                        <ion-option-button class="button-assertive ion-android-delete" ng-click="removeItem(item)">
                         </ion-option-button>
 
                     </ion-item>
-                </ion-list>    
-
-
-                
+                </ion-list>              
             </ion-content>
             <ion-footer-bar align-title="left" padding="true" style="background: transparent;">
                     <div class="row">
@@ -140,10 +107,35 @@
                 </ion-footer-bar>
         </ion-modal-view>
     </script>
+
+    <!--doughnut chart modal-->
+    <script id="budgetChart.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar bar-header">
+                <button class="button button-primary button-positive" ng-click="budgetChart.hide()">Back</button>
+                <h1 id="chartTitle" class="title">Budget Compositions:</h1>
+
+            </ion-header-bar>
+
+            <ion-content style="background: url(img/bg2.png) no-repeat center;background-size:cover;" class="has-header">
+                <div class="spacer" style="width: 300px; height: 50px;"></div>
+                <h4>By Category:</h4>
+                <div class="card">
+                    <div class="item item-text-wrap" id="doughnut1">
+                        <canvas id="doughnut" class="chart chart-doughnut" chart-data="counts" chart-labels="countLabels" legend="true" chart-options="{showTooltips: false}">
+                        </canvas>
+                    </div>
+                </div>    
+
+
+            </ion-content>
+        </ion-modal-view>
+
+    </script>
     <!-- Add Item Modal -->
     <script id="budgetItemAdd.html" type="text/ng-template">
         <ion-modal-view>
-            <ion-header-bar class="bar bar-header bar-royal">
+            <ion-header-bar class="bar bar-header bar-light">
                 <h1 id="alpha" class="title">Add item</h1>
             </ion-header-bar>
             <ion-content class="padding" style="background: url(img/bg2.png) no-repeat center;background-size:cover;" class="has-header">
@@ -208,7 +200,7 @@
                     <label class="item item-input item-select">
                         <span class="input-label">Categories:</span>
                         <select class="button" ng-model="currentItem.category">
-                            <option value="Food">Food</option>
+                            <option selected="true" value="Food">Food</option>
                             <option value="Accomodation">Accomodation</option>
                             <option value="Transport">Transport</option>
                             <option value="Shopping">Shopping</option>
@@ -216,7 +208,7 @@
                         </select>
                     </label>
                     <div class="button-bar">
-                        <a class="button button-energized" ng-click="editteditem.category = currentItem.category; editBudgetItemconfirm(editteditem);">Edit</a>
+                        <a class="button button-energized" ng-click="editBudgetItemToChart(currentItem, editteditem);editteditem.category = currentItem.category; editBudgetItemconfirm(editteditem)">Edit</a>
                         <a class="button button-dark" ng-click="budgetItemEdit.hide()">Cancel</a>
                     </div>
             </ion-content>

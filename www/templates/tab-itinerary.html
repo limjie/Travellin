@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<ion-view view-title="Itinerary test" ng-init="fetchItinerary()">
+<ion-view view-title="Itinerary" ng-init="fetchItinerary()">
     <ion-nav-buttons side="primary">
-        <button class="button" ng-click="addItinerary()">
-            Add Itinerary
+        <button class="button icon ion-android-add" ng-click="addItinerary()">
+        
         </button>
     </ion-nav-buttons>
     <ion-content padding="true" style="background: url(img/bg1.png) no-repeat center;background-size:cover;" class="has-header">
@@ -10,11 +10,10 @@
             <ion-item ng-repeat="itinerary in itineraries" class="item-icon-right">
                 <h2 ng-click="view(itinerary)">{{itinerary.name}}, {{itinerary.from.getDate()+"/"+(itinerary.from.getMonth()+1)+"/"+itinerary.from.getFullYear()}} - {{itinerary.to.getDate()+"/"+(itinerary.to.getMonth()+1)+"/"+itinerary.to.getFullYear()}}</h2>
                 <i class="icon ion-chevron-left icon-accessory"></i>
-                <ion-option-button class="button-energized" ng-click="edit(itinerary)">
-                    Edit
+                <ion-option-button class="button-energized ion-android-create" ng-click="edit(itinerary)">
                 </ion-option-button>
-                <ion-option-button class="button-assertive" ng-click="remove(itinerary)">
-                    Delete
+                <ion-option-button class="button-assertive ion-android-delete" ng-click="remove(itinerary)">
+                
                 </ion-option-button>
             </ion-item>
         </ion-list>
@@ -96,11 +95,9 @@
                         <p id="budgetDateText">{{item.date.getDate()+"/"+(item.date.getMonth()+1)+"/"+item.date.getFullYear()}}, {{item.date.getHours()+":"+('0'+item.date.getMinutes()).slice(-2)}}</p>
                         <div class="buttons" align-right id="ItineraryItemRemarksText">{{item.remarks}}
                         </div>
-                        <ion-option-button class="button-energized" ng-click="edititem(item)">
-                            Edit
+                        <ion-option-button class="button-energized ion-android-create" ng-click="edititem(item)">
                         </ion-option-button>
-                        <ion-option-button class="button-assertive" ng-click="removeitem(item)">
-                            Delete
+                        <ion-option-button class="button-assertive ion-android-delete" ng-click="removeitem(item)">
                         </ion-option-button>
                     </ion-item>
                 </ion-list>
@@ -109,7 +106,7 @@
     <!-- Add Item Modal -->
     <script id="activityAdd.html" type="text/ng-template">
         <ion-modal-view>
-            <ion-header-bar class="bar bar-header bar-royal">
+            <ion-header-bar class="bar bar-header bar-light">
                 <h1 id="alpha" class="title">Add Activity</h1>
             </ion-header-bar>
             <ion-content class="padding" style="background: url(img/bg1.png) no-repeat center;background-size:cover;" class="has-header">

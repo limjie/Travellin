@@ -20,7 +20,7 @@
     font-size: 15px;
     color: black;
     background: #54C571;
-    padding:2px 35px;
+    padding:2px 18px;
     text-decoration:none;
    
     border-radius:5px;
@@ -52,25 +52,27 @@
 #budgetItemText {
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 16px;
     color: #2C3539;
-    font-size: 18px;
+    font-size: 19px;
     font-weight: 500; 
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
     white-space: nowrap;
-    width: 8em;
+    width: 15.5em;
     margin-bottom: 1px;
     padding-bottom: 1px;
     position: relative;
     bottom: 4.5px;
+
 }
 
 #budgetDateText {
-    font-size: 13px;  
+    font-size: 15px;  
     color: black;
     font-weight: 400;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
 
       
 }
@@ -81,10 +83,10 @@
     text-overflow: ellipsis;
     display: block;
     white-space: nowrap;
-    width: 8em;
+    width: 15em;
     top:12px !important;
     text-align: right;
-    padding-left: 80px;
+    padding-left: 60px;
 }
 #ItineraryItemRemarksText{
     color: #2C3539;
@@ -119,6 +121,9 @@
     text-align: center;
 }
 
+#chartTitle {
+    padding-left: 20px;
+}
 .number {
     vertical-align: -20px;
     font-size: 30px;

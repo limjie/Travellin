@@ -225,7 +225,23 @@ angular.module('starter.controllers', [])
 .controller('BudgetCtrl', function($scope, $ionicModal, Budgets, $ionicListDelegate, localStorageService) {
     $scope.fetchBudget = function() {
         $scope.budgets = Budgets.all();
+        if(localStorageService.get("chartData")) {
+            $scope.counts = localStorageService.get("chartData");
+        } else {
+            $scope.counts = [0, 0, 0, 0, 0];
+        }
     };
+    $scope.countLabels = ["Food", "Accomodation", "Transport", "Shopping", "Others"];
+    $scope.chart = function(budget) {
+        $ionicModal.fromTemplateUrl('budgetChart.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+        }).then(function(modal) {
+            $scope.budgetChart = modal;
+            $scope.budgetChart.show();
+        });
+    };
+
     $scope.totalAmount = 0;
     $scope.order = 'date';
     $scope.getTotal = function(budget) {
@@ -285,15 +301,66 @@ angular.module('starter.controllers', [])
         });
         localStorageService.set("budgetData", budgets);
     };
+    $scope.addBudgetItemToChart = function(budgetItem) {
+        if(budgetItem.category == "Food") {
+            $scope.counts[0] += budgetItem.price;
+        } else if(budgetItem.category == "Accomodation") {
+            $scope.counts[1] += budgetItem.price;
+        } else if(budgetItem.category == "Transport") {
+            $scope.counts[2] += budgetItem.price;
+        } else if(budgetItem.category == "Shopping") {
+            $scope.counts[3] += budgetItem.price;
+        } else if(budgetItem.category == "Others") {
+            $scope.counts[4] += budgetItem.price;
+        }
+    };
+    $scope.editBudgetItemToChart = function(currentItem, edittedItem) {
+        if(edittedItem.price !== null) {
+            if(currentItem.category == "Food") {
+                $scope.counts[0] -= currentItem.price;
+                $scope.counts[0] += edittedItem.price;
+            } else if(currentItem.category == "Accomodation") {
+                $scope.counts[1] -= currentItem.price;
+                $scope.counts[1] += edittedItem.price;
+            } else if(currentItem.category == "Transport") {
+                $scope.counts[2] -= currentItem.price;
+                $scope.counts[2] += edittedItem.price;
+            } else if(currentItem.category == "Shopping") {
+                $scope.counts[3] -= currentItem.price;
+                $scope.counts[3] += edittedItem.price;
+            } else if(currentItem.category == "Others") {
+               $scope.counts[4] -= currentItem.price;
+                $scope.counts[4] += edittedItem.price;
+            }
+            localStorageService.set("chartData", $scope.counts);
+        }    
+    };
+    $scope.removeBudgetItemToChart = function(budgetItem) {
+        if(budgetItem.category == "Food") {
+            $scope.counts[0] -= budgetItem.price;
+        } else if(budgetItem.category == "Accomodation") {
+            $scope.counts[1] -= budgetItem.price;
+        } else if(budgetItem.category == "Transport") {
+            $scope.counts[2] -= budgetItem.price;
+        } else if(budgetItem.category == "Shopping") {
+            $scope.counts[3] -= budgetItem.price;
+        } else if(budgetItem.category == "Others") {
+            $scope.counts[4] -= budgetItem.price;
+        }        
+    };
     $scope.addBudgetItemconfirm = function(budgetItem) {
+        $scope.addBudgetItemToChart(budgetItem);
         Budgets.addItem($scope.current, budgetItem);
         $scope.getTotal($scope.current);
         $scope.budgetItemAdd.hide();
+        localStorageService.set("chartData", $scope.counts);
         localStorageService.set("budgetData", budgets);
     };
     $scope.removeItem = function(budgetItem) {
+        $scope.removeBudgetItemToChart(budgetItem);
         Budgets.removeItem($scope.current, budgetItem);
         $scope.getTotal($scope.current);
+        localStorageService.set("chartData", $scope.counts);
         localStorageService.set("budgetData", budgets);
     };
     $scope.editItem = function(budgetItem) {
@@ -315,9 +382,12 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('SettingCtrl', function($scope) {
+.controller('SettingCtrl', function($scope, localStorageService) {
     $scope.setting = {
         twentyfourhour: true,
         notification: true
     };
+    $scope.clearAll = function() {
+        localStorageService.clearAll();
+    }
 });
