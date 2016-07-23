@@ -76,19 +76,32 @@
                 <div class="budgetSort">
                     <p>
                         Sort by:
-                        <button class="button button-right button-positive" ng-click="order = 'price'">Price</button>
+                        <button class="button button-right button-calm" ng-click="order = 'price'">Price</button>
                         <button class="button button-right button-positive" ng-click="order = 'date'">Date</button>
-                        <button class="button icon ion-ios-pie-outline" ng-click="chart(current)" style="background-color: white;"></button>
+                        <button class="button button-right button-assertive" ng-click="order = 'category'">Category</button>
+                        
                     </p>
                 </div>
-                
+                <div id="chartID">Chart:
+                    <button id="chartButton" class="button button-stable icon ion-ios-pie-outline" ng-click="chart(current)" style="background-color: white;"> Category</button>
+                </div> 
+                 
                 <ion-list>
                     <ion-item ng-repeat="item in current.items | orderBy: order" type="item-text-wrap" class="item-button-right" id="budgetList">
-                        <h2 id="budgetItemText">{{item.itemName}} , [{{item.category}}]</h2>
+                        <a id="budgetCategory" ng-if="item.category === 'Food'" class="icon ion-pizza"></a>
+                        <a id="budgetCategory" ng-if="item.category === 'Transport'" class="icon ion-plane"></a>
+                        <a id="budgetCategory" ng-if="item.category === 'Accomodation'" class="icon ion-android-home"></a>
+                        <a id="budgetCategory" ng-if="item.category === 'Shopping'" class="icon ion-bag"></a>
+                         <a id="budgetCategory" ng-if="item.category === 'Others'" class="icon ion-more"></a>
+                        <div id="budgetItemText" >{{item.itemName}}</div>
+                          
+                     
                         <p id="budgetDateText">{{item.date.getDate()+"/"+(item.date.getMonth()+1)+"/"+item.date.getFullYear()}}, {{item.date.getHours()+":"+('0'+item.date.getMinutes()).slice(-2)}}</p>
 
                         <div class="buttons" id="budgetItemPriceText">${{item.price}}
                         </div>
+
+
 
                         <ion-option-button class="button-energized ion-android-create" ng-click="editItem(item)">
                         </ion-option-button>
@@ -96,13 +109,14 @@
                         </ion-option-button>
 
                     </ion-item>
-                </ion-list>              
+                </ion-list>
+                               
             </ion-content>
             <ion-footer-bar align-title="left" padding="true" style="background: transparent;">
                     <div class="row">
-                        <div style="float: left">Total Spent: ${{totalAmount}}</div>
+                        <div id="footerBar1">Total Spent: ${{totalAmount}}</div>
                         <div class="spacer" style="margin: 0 auto; width: 80px;"></div>
-                        <div style="float: right;">Amount Left: ${{current.amount - totalAmount}}</div>
+                        <div id="footerBar2">Amount Left: ${{current.amount - totalAmount}}</div>
                     </div>
                 </ion-footer-bar>
         </ion-modal-view>
@@ -122,16 +136,31 @@
                 <h4>By Category:</h4>
                 <div class="card">
                     <div class="item item-text-wrap" id="doughnut1">
-                        <canvas id="doughnut" class="chart chart-doughnut" chart-data="counts" chart-labels="countLabels" legend="true" chart-options="{showTooltips: false}">
+                        <canvas id="doughnut" class="chart chart-doughnut" chart-data="counts" chart-labels="countLabels" chart-colours="colours" legend="true" series="series" chart-options="{showTooltips: false}" >
                         </canvas>
                     </div>
-                </div>    
+                        
+                </div>
 
-
+                <div>
+                    <h4 style="padding-left: 10px;">Summary</h4>
+                    <div style="margin-left: 10px">
+                        <div style="font-size: 18px;">
+                            <div class="col">
+                                <div class="row" ng-repeat="item in countLabels">{{item}}:</div>
+                            </div>
+                            <div class="col" id="summaryCol2">
+                                <div class="row" ng-repeat="item2 in counts">${{item2}}</div>
+                            </div>
+                            
+                                <div class="row" id="summaryCol3" ng-repeat="item3 in counts">{{(item3 / totalAmount * 100).toFixed(2)}} %</div>       
+                        </div>        
+                    </div>           
+                </div>  
             </ion-content>
         </ion-modal-view>
-
     </script>
+
     <!-- Add Item Modal -->
     <script id="budgetItemAdd.html" type="text/ng-template">
         <ion-modal-view>
@@ -199,7 +228,7 @@
                     </label>
                     <label class="item item-input item-select">
                         <span class="input-label">Categories:</span>
-                        <select class="button" ng-model="currentItem.category">
+                        <select class="button" ng-model="currentItem.category" ng-change="editteditem.category=currentItem.category">
                             <option selected="true" value="Food">Food</option>
                             <option value="Accomodation">Accomodation</option>
                             <option value="Transport">Transport</option>
@@ -208,7 +237,7 @@
                         </select>
                     </label>
                     <div class="button-bar">
-                        <a class="button button-energized" ng-click="editBudgetItemToChart(currentItem, editteditem);editteditem.category = currentItem.category; editBudgetItemconfirm(editteditem)">Edit</a>
+                        <a class="button button-energized" ng-click="editBudgetItemToChart(currentItem, editteditem); editteditem.category = currentItem.category; editBudgetItemconfirm(editteditem)">Edit</a>
                         <a class="button button-dark" ng-click="budgetItemEdit.hide()">Cancel</a>
                     </div>
             </ion-content>

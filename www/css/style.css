@@ -20,13 +20,57 @@
     font-size: 15px;
     color: black;
     background: #54C571;
-    padding:2px 18px;
+    padding:2px 17px;
     text-decoration:none;
    
     border-radius:5px;
-    margin-left:15px;
+    margin-left:6px;
 
 }
+
+#footerBar1 {
+    float: left; font-weight:500; font-size: 16px;
+    position: relative;
+    bottom:5px;
+}
+#footerBar2 {
+    float: right; font-weight:500; font-size: 16px;
+    position: relative;
+    bottom:5px;
+}
+#chartID {
+    background:rgba(255, 255, 255, 0.25);
+    border:2px solid rgba(255, 255, 255, 0.35);
+    height: 62.5px;
+    border-radius:5px;
+    box-shadow: 0px 1px 1px RGBA(0, 0, 0, 0.6);
+    padding-top: 10px;
+    padding-left: 10px;
+    font-size:20px;
+    color: black;
+    text-align: left;
+}
+
+#chartButton {
+    margin-left: 20px;
+}
+
+#doughnut1 {
+    background-color: #FDEEF4; 
+}
+
+
+#summaryCol2 {
+    position: relative;
+    left: 175px;
+    bottom: 117px;
+}
+#summaryCol3 {
+    position: relative;
+    left: 265px;
+    bottom: 230px;
+}
+
 
 /*.item .item-content {
   background-color: transparent !important;
@@ -48,6 +92,31 @@
   padding-right: 0px !important;
 }
 
+#itineraryItemText {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #2C3539;
+    font-size: 19px;
+    font-weight: 500; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    white-space: nowrap;
+    width: 10em;
+    margin-bottom: 1px;
+    padding-bottom: 1px;
+    position: relative;
+    bottom: 6.5px;
+}
+
+#itineraryDateText {
+    font-size: 17px;  
+    color: black;
+    font-weight: 400;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+      
+}
 
 #budgetItemText {
     overflow: hidden;
@@ -59,23 +128,30 @@
     text-overflow: ellipsis;
     display: block;
     white-space: nowrap;
-    width: 15.5em;
+    width: 10em;
     margin-bottom: 1px;
     padding-bottom: 1px;
     position: relative;
     bottom: 4.5px;
-
 }
 
+#budgetItemText, #budgetCategory {
+    display:inline-block;
+}
+#budgetCategory {
+    position: relative;
+    top: -8px !important;
+}
 #budgetDateText {
     font-size: 15px;  
     color: black;
     font-weight: 400;
-    margin-bottom: 5px;
-    padding-bottom: 5px;
+    position: relative;
+    bottom: 5px;
 
       
 }
+
 #budgetItemPriceText {
     color: #2C3539;
     font-weight: 500; 
@@ -124,6 +200,8 @@
 #chartTitle {
     padding-left: 20px;
 }
+
+.chart 
 .number {
     vertical-align: -20px;
     font-size: 30px;
@@ -151,14 +229,19 @@
   overflow: visible !important;
 }
 
-
+#converterValues {
+    font-size: 28px;
+    position: relative;
+    top:15px;
+    left: 10px;
+}
 #converterLine1 {
     padding: 3px;
 }
 
 #converterButton {
     position: relative;
-    background-color: #56A5EC;
+    background-color: #38ACEC;
     border: black;
     font-size: 24px;
     color: black;
@@ -206,3 +289,4 @@
     opacity: 1;
     transition: 0s
 }
+

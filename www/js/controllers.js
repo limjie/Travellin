@@ -225,12 +225,20 @@ angular.module('starter.controllers', [])
 .controller('BudgetCtrl', function($scope, $ionicModal, Budgets, $ionicListDelegate, localStorageService) {
     $scope.fetchBudget = function() {
         $scope.budgets = Budgets.all();
+        if(localStorageService.get("totalAmount")) {
+            $scope.totalAmount = localStorageService.get("totalAmount");
+        } else {
+            $scope.totalAmount = 0;
+        }
         if(localStorageService.get("chartData")) {
             $scope.counts = localStorageService.get("chartData");
         } else {
             $scope.counts = [0, 0, 0, 0, 0];
         }
+        
     };
+    $scope.testValues = [1, 2, 3, 4, 5];
+
     $scope.countLabels = ["Food", "Accomodation", "Transport", "Shopping", "Others"];
     $scope.chart = function(budget) {
         $ionicModal.fromTemplateUrl('budgetChart.html', {
@@ -242,10 +250,10 @@ angular.module('starter.controllers', [])
         });
     };
 
-    $scope.totalAmount = 0;
     $scope.order = 'date';
     $scope.getTotal = function(budget) {
         $scope.totalAmount = Budgets.getTotal(budget);
+        
     };
     $scope.remove = function(budget) {
         Budgets.remove(budget);
@@ -302,17 +310,20 @@ angular.module('starter.controllers', [])
         localStorageService.set("budgetData", budgets);
     };
     $scope.addBudgetItemToChart = function(budgetItem) {
-        if(budgetItem.category == "Food") {
+        if(budgetItem.category === "Food") {
             $scope.counts[0] += budgetItem.price;
-        } else if(budgetItem.category == "Accomodation") {
+        } else if(budgetItem.category === "Accomodation") {
             $scope.counts[1] += budgetItem.price;
-        } else if(budgetItem.category == "Transport") {
+        } else if(budgetItem.category === "Transport") {
             $scope.counts[2] += budgetItem.price;
-        } else if(budgetItem.category == "Shopping") {
+        } else if(budgetItem.category === "Shopping") {
             $scope.counts[3] += budgetItem.price;
-        } else if(budgetItem.category == "Others") {
+        } else if(budgetItem.category === "Others") {
             $scope.counts[4] += budgetItem.price;
         }
+        for(var i in $scope.counts) {
+            $scope.counts[i].toFixed(2);
+        } 
     };
     $scope.editBudgetItemToChart = function(currentItem, edittedItem) {
         if(edittedItem.price !== null) {
@@ -333,19 +344,22 @@ angular.module('starter.controllers', [])
                 $scope.counts[4] += edittedItem.price;
             }
             localStorageService.set("chartData", $scope.counts);
-        }    
+        }       
     };
     $scope.removeBudgetItemToChart = function(budgetItem) {
-        if(budgetItem.category == "Food") {
+        if(budgetItem.category === "Food") {
             $scope.counts[0] -= budgetItem.price;
-        } else if(budgetItem.category == "Accomodation") {
+        } else if(budgetItem.category === "Accomodation") {
             $scope.counts[1] -= budgetItem.price;
-        } else if(budgetItem.category == "Transport") {
+        } else if(budgetItem.category === "Transport") {
             $scope.counts[2] -= budgetItem.price;
-        } else if(budgetItem.category == "Shopping") {
+        } else if(budgetItem.category === "Shopping") {
             $scope.counts[3] -= budgetItem.price;
-        } else if(budgetItem.category == "Others") {
+        } else if(budgetItem.category === "Others") {
             $scope.counts[4] -= budgetItem.price;
+        }
+        for(var i in $scope.counts) {
+            $scope.counts[i].toFixed(2);
         }        
     };
     $scope.addBudgetItemconfirm = function(budgetItem) {
@@ -379,15 +393,29 @@ angular.module('starter.controllers', [])
         $scope.getTotal($scope.current);
         $scope.budgetItemEdit.hide();
         $ionicListDelegate.closeOptionButtons();
+        localStorageService.set("chartData", $scope.counts);
+        localStorageService.set("budgetData", budgets);
     };
 })
 
-.controller('SettingCtrl', function($scope, localStorageService) {
+.controller('SettingCtrl', function($scope, $ionicPopup, Budgets, Itineraries,  localStorageService) {
     $scope.setting = {
-        twentyfourhour: true,
+        //twentyfourhour: true,
         notification: true
     };
     $scope.clearAll = function() {
-        localStorageService.clearAll();
-    }
-});
+        var confirmPopup = $ionicPopup.confirm({
+            title: 'Delete All Data',
+            template: 'Are you sure you want to delete everything?'
+        });
+
+        confirmPopup.then(function(res) {
+            if(res) {
+                Budgets.clearData();
+                $scope.counts = [0, 0, 0, 0, 0];
+                Itineraries.clearData();
+                localStorageService.clearAll();
+            }  
+        });    
+    };
+})

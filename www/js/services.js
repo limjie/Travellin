@@ -29,6 +29,9 @@ angular.module('starter.services', [])
                 }
                 return itineraries;   
             },
+            clearData: function() {
+                itineraries.length = 0;
+            },
             remove: function(itinerary) {
                 itineraries.splice(itineraries.indexOf(itinerary), 1);
                 localStorageService.set("itineraryData", itineraries);
@@ -121,6 +124,7 @@ angular.module('starter.services', [])
             catgeory: Food
         }]
     } */];
+
     if (localStorageService.get("budgetData")) {
         budgets = localStorageService.get("budgetData");
     }
@@ -130,7 +134,12 @@ angular.module('starter.services', [])
             for (var i = budget.items.length - 1; i >= 0; i--) {
                 sum += budget.items[i].price;
             }
+            localStorageService.set("totalAmount", sum);
             return sum;
+
+        },
+        clearData: function() {
+            budgets.length = 0;
         },
         all: function() {
             for(var i in budgets) {

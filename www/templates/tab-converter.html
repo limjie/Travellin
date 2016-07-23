@@ -171,7 +171,7 @@
             <option value="ZMW" title="Zambian Kwacha">ZWL</option>
             <option value="ZWL" title="Zimbabwean Dollar">ZWL</option>
         </select>
-        <span ng-bind="x.value" ng-class="{number: true}"></span>
+        <span id="converterValues" ng-bind="x.value" ng-class="{number: true}"></span>
         <br>
         <br>
         <select name="currencies" class="button" ng-model="a.currency">
@@ -344,7 +344,7 @@
             <option value="ZMW" title="Zambian Kwacha">ZWL</option>
             <option value="ZWL" title="Zimbabwean Dollar">ZWL</option>
         </select>
-        <span ng-bind="a.value" ng-class="{number: true}"></span>
+        <span id="converterValues" ng-bind="a.value" ng-class="{number: true}"></span>
         <div class="button-bar" id="converterLine1">
             <a class="button" ng-click="clear()" id="converterButton2">Clear</a>
             <a class="button" ng-click="backspace()" id="converterButton2">&larr;</a>

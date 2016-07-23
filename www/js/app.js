@@ -24,9 +24,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     $ionicPlatform.registerBackButtonAction();
 })
 
-
-    
 .config(function($stateProvider, $urlRouterProvider, localStorageServiceProvider) {
+
     localStorageServiceProvider.setPrefix('starter');
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router
