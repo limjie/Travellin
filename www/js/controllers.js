@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
 .controller('ItineraryCtrl', function($scope, $ionicModal, Itineraries, $ionicListDelegate, Budgets, localStorageService, $cordovaLocalNotification) {
-    $scope.fetchItinerary = function () {
+    $scope.fetchItinerary = function() {
         $scope.itineraries = Itineraries.all();
     };
     $scope.notisetting = {
@@ -223,24 +223,29 @@ angular.module('starter.controllers', [])
 })
 
 .controller('BudgetCtrl', function($scope, $ionicModal, Budgets, $ionicListDelegate, localStorageService) {
+    $scope.oldcat = undefined;
     $scope.fetchBudget = function() {
         $scope.budgets = Budgets.all();
-        if(localStorageService.get("totalAmount")) {
+        if (localStorageService.get("totalAmount")) {
             $scope.totalAmount = localStorageService.get("totalAmount");
         } else {
             $scope.totalAmount = 0;
         }
-        if(localStorageService.get("chartData")) {
+        if (localStorageService.get("chartData")) {
             $scope.counts = localStorageService.get("chartData");
         } else {
-            $scope.counts = [0, 0, 0, 0, 0];
+            $scope.counts = [{num: 0}, {num: 0}, {num: 0}, {num: 0}, {num: 0}];
         }
-        
-    };
-    $scope.testValues = [1, 2, 3, 4, 5];
 
+    };
+    $scope.testValues = [{num: 0}, {num: 0}, {num: 0}, {num: 0}, {num: 0}];
+
+    $scope.updateChart = function() {
+        $scope.arr = [$scope.counts[0].num, $scope.counts[1].num, $scope.counts[2].num, $scope.counts[3].num, $scope.counts[4].num];            
+    }
     $scope.countLabels = ["Food", "Accomodation", "Transport", "Shopping", "Others"];
     $scope.chart = function(budget) {
+        $scope.updateChart();
         $ionicModal.fromTemplateUrl('budgetChart.html', {
             scope: $scope,
             animation: 'slide-in-up'
@@ -253,7 +258,7 @@ angular.module('starter.controllers', [])
     $scope.order = 'date';
     $scope.getTotal = function(budget) {
         $scope.totalAmount = Budgets.getTotal(budget);
-        
+
     };
     $scope.remove = function(budget) {
         Budgets.remove(budget);
@@ -310,57 +315,67 @@ angular.module('starter.controllers', [])
         localStorageService.set("budgetData", budgets);
     };
     $scope.addBudgetItemToChart = function(budgetItem) {
-        if(budgetItem.category === "Food") {
-            $scope.counts[0] += budgetItem.price;
-        } else if(budgetItem.category === "Accomodation") {
-            $scope.counts[1] += budgetItem.price;
-        } else if(budgetItem.category === "Transport") {
-            $scope.counts[2] += budgetItem.price;
-        } else if(budgetItem.category === "Shopping") {
-            $scope.counts[3] += budgetItem.price;
-        } else if(budgetItem.category === "Others") {
-            $scope.counts[4] += budgetItem.price;
+        if (budgetItem.category === "Food") {
+            $scope.counts[0].num += budgetItem.price;
+        } else if (budgetItem.category === "Accomodation") {
+            $scope.counts[1].num += budgetItem.price;
+        } else if (budgetItem.category === "Transport") {
+            $scope.counts[2].num += budgetItem.price;
+        } else if (budgetItem.category === "Shopping") {
+            $scope.counts[3].num += budgetItem.price;
+        } else if (budgetItem.category === "Others") {
+            $scope.counts[4].num += budgetItem.price;
         }
-        for(var i in $scope.counts) {
-            $scope.counts[i].toFixed(2);
-        } 
+        for (var i in $scope.counts) {
+            $scope.counts[i].num.toPrecision(2);
+        }
     };
-    $scope.editBudgetItemToChart = function(currentItem, edittedItem) {
-        if(edittedItem.price !== null) {
-            if(currentItem.category == "Food") {
-                $scope.counts[0] -= currentItem.price;
-                $scope.counts[0] += edittedItem.price;
-            } else if(currentItem.category == "Accomodation") {
-                $scope.counts[1] -= currentItem.price;
-                $scope.counts[1] += edittedItem.price;
-            } else if(currentItem.category == "Transport") {
-                $scope.counts[2] -= currentItem.price;
-                $scope.counts[2] += edittedItem.price;
-            } else if(currentItem.category == "Shopping") {
-                $scope.counts[3] -= currentItem.price;
-                $scope.counts[3] += edittedItem.price;
-            } else if(currentItem.category == "Others") {
-               $scope.counts[4] -= currentItem.price;
-                $scope.counts[4] += edittedItem.price;
-            }
-            localStorageService.set("chartData", $scope.counts);
-        }       
+    $scope.editBudgetItemToChart = function(edittedItem) {
+        var x = 0;
+        var y = 0;
+        if ($scope.oldcat == "Food") {
+            x = 0;
+        } else if ($scope.oldcat == "Accomodation") {
+            x = 1;
+        } else if ($scope.oldcat == "Transport") {
+            x = 2;
+        } else if ($scope.oldcat == "Shopping") {
+            x = 3;
+        } else {
+            x = 4;
+        }
+        if (edittedItem.category == "Food") {
+            y = 0;
+        } else if (edittedItem.category == "Accomodation") {
+            y = 1;
+        } else if (edittedItem.category == "Transport") {
+            y = 2;
+        } else if (edittedItem.category == "Shopping") {
+            y = 3;
+        } else {
+            y = 4;
+        }
+        if (edittedItem.price == null) {
+            $scope.counts[x].num -= $scope.currentItem.price;
+            $scope.counts[y].num += $scope.currentItem.price;
+        } else {
+            $scope.counts[x].num -= $scope.currentItem.price;
+            $scope.counts[y].num += edittedItem.price;
+        }
+        localStorageService.set("chartData", $scope.counts);
     };
     $scope.removeBudgetItemToChart = function(budgetItem) {
-        if(budgetItem.category === "Food") {
-            $scope.counts[0] -= budgetItem.price;
-        } else if(budgetItem.category === "Accomodation") {
-            $scope.counts[1] -= budgetItem.price;
-        } else if(budgetItem.category === "Transport") {
-            $scope.counts[2] -= budgetItem.price;
-        } else if(budgetItem.category === "Shopping") {
-            $scope.counts[3] -= budgetItem.price;
-        } else if(budgetItem.category === "Others") {
-            $scope.counts[4] -= budgetItem.price;
+        if (budgetItem.category === "Food") {
+            $scope.counts[0].num -= budgetItem.price;
+        } else if (budgetItem.category === "Accomodation") {
+            $scope.counts[1].num -= budgetItem.price;
+        } else if (budgetItem.category === "Transport") {
+            $scope.counts[2].num -= budgetItem.price;
+        } else if (budgetItem.category === "Shopping") {
+            $scope.counts[3].num -= budgetItem.price;
+        } else if (budgetItem.category === "Others") {
+            $scope.counts[4].num -= budgetItem.price;
         }
-        for(var i in $scope.counts) {
-            $scope.counts[i].toFixed(2);
-        }        
     };
     $scope.addBudgetItemconfirm = function(budgetItem) {
         $scope.addBudgetItemToChart(budgetItem);
@@ -379,6 +394,7 @@ angular.module('starter.controllers', [])
     };
     $scope.editItem = function(budgetItem) {
         $scope.currentItem = budgetItem;
+        $scope.oldcat = budgetItem.category;
         $ionicModal.fromTemplateUrl('budgetItemEdit.html', {
             scope: $scope,
             animation: 'slide-in-up'
@@ -398,7 +414,7 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('SettingCtrl', function($scope, $ionicPopup, Budgets, Itineraries,  localStorageService) {
+.controller('SettingCtrl', function($scope, $ionicPopup, Budgets, Itineraries, localStorageService) {
     $scope.setting = {
         //twentyfourhour: true,
         notification: true
@@ -410,12 +426,12 @@ angular.module('starter.controllers', [])
         });
 
         confirmPopup.then(function(res) {
-            if(res) {
+            if (res) {
                 Budgets.clearData();
-                $scope.counts = [0, 0, 0, 0, 0];
+                $scope.counts = [{num: 0}, {num: 0}, {num: 0}, {num: 0}, {num: 0}];
                 Itineraries.clearData();
                 localStorageService.clearAll();
-            }  
-        });    
+            }
+        });
     };
 })
