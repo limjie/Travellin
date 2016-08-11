@@ -135,9 +135,9 @@
                                 <div class="row" ng-repeat="item in countLabels">{{item}}:</div>
                             </div>
                             <div class="col" id="summaryCol2">
-                                <div class="row" ng-repeat="item2 in counts">${{item2.num}}</div>
+                                <div class="row" ng-repeat="item2 in current.counts">${{item2.num}}</div>
                             </div>
-                            <div class="row" id="summaryCol3" ng-repeat="item3 in counts">{{(totalAmount !== 0) ? (item3.num / totalAmount * 100).toFixed(2): 0}} %</div>
+                            <div class="row" id="summaryCol3" ng-repeat="item3 in current.counts">{{(totalAmount !== 0) ? (item3.num / totalAmount * 100).toFixed(2): 0}} %</div>
                         </div>
                     </div>
                 </div>

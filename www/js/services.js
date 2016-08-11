@@ -43,7 +43,6 @@ angular.module('starter.services', [])
             add: function(itinerary) {
                 itineraries.push({
                     name: itinerary.name,
-                    country: itinerary.country,
                     from: itinerary.from,
                     to: itinerary.to,
                     items: []
@@ -68,9 +67,6 @@ angular.module('starter.services', [])
             edit: function(itinerary, newitinerary) {
                 if (newitinerary.name !== undefined && newitinerary.name !== '') {
                     itinerary.name = newitinerary.name;
-                }
-                if (newitinerary.country !== undefined && newitinerary.country !== '') {
-                    itinerary.country = newitinerary.country;
                 }
                 if (newitinerary.from !== undefined && newitinerary.from !== null) {
                     itinerary.from = newitinerary.from;
@@ -161,7 +157,8 @@ angular.module('starter.services', [])
             budgets.push({
                 name: budget.name,
                 amount: budget.amount,
-                items: []
+                items: [],
+                counts:[{num: 0}, {num: 0}, {num: 0}, {num: 0}, {num: 0}]
             });
             localStorageService.set("budgetData", budgets);
         },

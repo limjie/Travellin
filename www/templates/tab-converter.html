@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<ion-view view-title="Currency Converter">
+<ion-view view-title="Currency Converter" ng-init="fetchCurr()">
     <ion-content padding="true" style="background: url(img/bg3.png) no-repeat center;background-size:cover;" class="has-header">
-        <select name="currencies" class="button" ng-model="x.currency">
+        <select name="currencies" class="button" ng-model="x.currency" ng-change="save()">
             <option value="AED" title="United Arab Emirates Dirham">AED</option>
             <option value="AFN" title="Afghan Afghani">AFN</option>
             <option value="ALL" title="Albanian Lek">ALL</option>
@@ -174,7 +174,7 @@
         <span id="converterValues" ng-bind="x.value" ng-class="{number: true}"></span>
         <br>
         <br>
-        <select name="currencies" class="button" ng-model="a.currency">
+        <select name="currencies" class="button" ng-model="a.currency" ng-change="save()">
             <option value="AED" title="United Arab Emirates Dirham">AED</option>
             <option value="AFN" title="Afghan Afghani">AFN</option>
             <option value="ALL" title="Albanian Lek">ALL</option>

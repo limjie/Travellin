@@ -31,12 +31,8 @@
                         <input ng-model="added.name" type="text">
                     </label>
                     <label class="item item-input">
-                        <span class="input-label">Country:</span>
-                        <input ng-model="added.country" type="text">
-                    </label>
-                    <label class="item item-input">
                         <span class="input-label">From:</span>
-                        <input ng-model="added.from" type="date">
+                        <input ng-model="added.from" type="date" ng-change="added.to = added.from">
                     </label>
                     <label class="item item-input">
                         <span class="input-label">To:</span>
@@ -67,7 +63,7 @@
                     </label>
                     <label class="item item-input">
                         <span class="input-label">From:</span>
-                        <input ng-model="editted.from" type="date" placeholder="{{current.from}}">
+                        <input ng-model="editted.from" type="date" ng-change="editted.to = editted.from">
                     </label>
                     <label class="item item-input">
                         <span class="input-label">To:</span>
