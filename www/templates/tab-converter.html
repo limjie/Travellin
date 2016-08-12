@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <ion-view view-title="Currency Converter" ng-init="fetchCurr()">
     <ion-content padding="true" style="background: url(img/bg3.png) no-repeat center;background-size:cover;" class="has-header">
-        <select name="currencies" class="button" ng-model="x.currency" ng-change="save()">
+        <select id="currencyButton" name="currencies" class="button" ng-model="x.currency" ng-change="save()">
             <option value="AED" title="United Arab Emirates Dirham">AED</option>
             <option value="AFN" title="Afghan Afghani">AFN</option>
             <option value="ALL" title="Albanian Lek">ALL</option>
@@ -173,8 +173,7 @@
         </select>
         <span id="converterValues" ng-bind="x.value" ng-class="{number: true}"></span>
         <br>
-        <br>
-        <select name="currencies" class="button" ng-model="a.currency" ng-change="save()">
+        <select id="currencyButton" name="currencies" class="button" ng-model="a.currency" ng-change="save()">
             <option value="AED" title="United Arab Emirates Dirham">AED</option>
             <option value="AFN" title="Afghan Afghani">AFN</option>
             <option value="ALL" title="Albanian Lek">ALL</option>
@@ -370,7 +369,7 @@
         <div class="button-bar">
             <a class="button" ng-click="input('.')" id="converterButton">.</a>
             <a class="button" ng-click="input('0')" id="converterButton">0</a>
-            <a id="bigbutton" class="button" ng-click="equal()" id="converterButton2">=</a>
+            <a class="button" ng-click="equal()" id="converterButton3">=</a>
         </div>
         <div class="button-bar">
             <a class="button button-energized" ng-click="convert()">Convert</a>

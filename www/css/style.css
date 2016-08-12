@@ -235,6 +235,11 @@
     top:15px;
     left: 10px;
 }
+
+#currencyButton {
+    border: solid grey;
+    border-width: 0.01cm;
+}
 #converterLine1 {
     padding: 3px;
 }
@@ -242,7 +247,7 @@
 #converterButton {
     position: relative;
     background-color: #38ACEC;
-    border: black;
+    border: solid #1589FF;
     font-size: 24px;
     color: black;
     padding: 10px;
@@ -253,12 +258,30 @@
     text-decoration: none;
     overflow: hidden;
     cursor: pointer;
+    border-width: 0.1cm;
 }
 
 #converterButton2 {
     position: relative;
     background-color: #BCC6CC;
-    border: black;
+    border: solid #6D7B8D;
+    border-width: 0.01cm;
+    font-size: 24px;
+    color: black;
+    width: 100px;
+    text-align: center;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+    height: 25px;
+}
+
+#converterButton3 {
+    position: relative;
+    background-color: #38ACEC;
+    border: solid #1589FF;
     font-size: 24px;
     color: black;
     padding: 10px;
@@ -269,7 +292,12 @@
     text-decoration: none;
     overflow: hidden;
     cursor: pointer;
+    border-width: 0.1cm;
+    width: 50%;
+    min-width: 50%;
 }
+
+
 #converterButton:after {
     content: "";
     background: #90EE90;
