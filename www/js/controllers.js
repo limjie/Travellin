@@ -114,7 +114,9 @@ angular.module('starter.controllers', [])
         $cordovaLocalNotification.schedule({
             id: $scope.counter + 1,
             text: notification.message,
-            at: notification.date
+            at: notification.date,
+            icon: "../img/icon.png",
+            smallIcon: "../img/icon.png"
         });
         $scope.notification.hide();
     };
@@ -136,7 +138,9 @@ angular.module('starter.controllers', [])
         $cordovaLocalNotification.schedule({
             id: $scope.currentitem.id,
             text: (notification.message !== undefined && notification.message !== '') ? notification.message : $scope.currentitem.notification.message,
-            at: (notification.date !== undefined && notification.date !== null) ? notification.date : $scope.currentitem.notification.date
+            at: (notification.date !== undefined && notification.date !== null) ? notification.date : $scope.currentitem.notification.date,
+            icon: "../img/icon.png",
+            smallIcon: "../img/icon.png"
         });
         $scope.editnotification.hide();
     };
@@ -146,7 +150,7 @@ angular.module('starter.controllers', [])
     $scope.fetchCurr = function() {
         $scope.x.currency = localStorageService.get("currX");
         $scope.a.currency = localStorageService.get("currA");
-    }
+    };
     $scope.x = {
         value: "0"
     };
@@ -157,11 +161,18 @@ angular.module('starter.controllers', [])
     $scope.opp = false;
     $scope.startnew = true;
     $scope.operation = null;
+    $scope.decimal = false;
     $scope.input = function(z) {
         if ($scope.startnew && z !== '.') {
             $scope.x.value = z;
             $scope.startnew = false;
             $scope.a.value = '0';
+        } else if (z === '.') {
+            if (!$scope.decimal) {
+                $scope.decimal = true;
+                $scope.x.value += z;
+                $scope.startnew = false;
+            }
         } else {
             $scope.x.value += z;
             $scope.startnew = false;
@@ -173,13 +184,13 @@ angular.module('starter.controllers', [])
         $scope.a.value = '0';
         $scope.opp = false;
         $scope.startnew = true;
+        $scope.decimal = false;
     };
     $scope.backspace = function() {
         if ($scope.x.value.substring($scope.x.value.length - 1) === '.') {
-            $scope.x.value = $scope.x.value.slice(0, -2);
-        } else {
-            $scope.x.value = $scope.x.value.slice(0, -1);
+            $scope.decimal = false;
         }
+        $scope.x.value = $scope.x.value.slice(0, -1);
     };
     $scope.op = function(op) {
         if ($scope.opp) {
@@ -189,6 +200,7 @@ angular.module('starter.controllers', [])
         $scope.y = $scope.x.value;
         $scope.startnew = true;
         $scope.operation = op;
+        $scope.decimal = false;
     };
     $scope.equal = function() {
         if ($scope.opp) {
@@ -203,23 +215,30 @@ angular.module('starter.controllers', [])
             $scope.opp = false;
         }
         $scope.startnew = true;
+        $scope.decimal = false;
     };
     $scope.convert = function() {
         var con = $scope.x.currency.concat($scope.a.currency);
         $scope.equal();
+        $scope.rates = undefined;
         $http.get("http://apilayer.net/api/live?access_key=8e7946018bea837c863dde007e43baa7").success(function(data) {
-            if ($scope.x.currency === "USD") {
-                $scope.a.value = ($scope.x.value * data.quotes[con]).toFixed(2);
-            } else if ($scope.a.currency === "USD") {
-                con = $scope.a.currency.concat($scope.x.currency);
-                $scope.a.value = ($scope.x.value * (1 / data.quotes[con])).toFixed(2);
-            } else {
-                con = "USD".concat($scope.x.currency);
-                var temp = $scope.x.value * (1 / data.quotes[con]);
-                con = "USD".concat($scope.a.currency);
-                $scope.a.value = (temp * data.quotes[con]).toFixed(2);
-            }
+            $scope.rates = data;
+            localStorageService.set("rates", $scope.rates);
         });
+        if ($scope.rates === undefined) {
+            $scope.rates = localStorageService.get("rates");
+        }
+        if ($scope.x.currency === "USD") {
+            $scope.a.value = ($scope.x.value * $scope.rates.quotes[con]).toFixed(2);
+        } else if ($scope.a.currency === "USD") {
+            con = $scope.a.currency.concat($scope.x.currency);
+            $scope.a.value = ($scope.x.value * (1 / $scope.rates.quotes[con])).toFixed(2);
+        } else {
+            con = "USD".concat($scope.x.currency);
+            var temp = $scope.x.value * (1 / $scope.rates.quotes[con]);
+            con = "USD".concat($scope.a.currency);
+            $scope.a.value = (temp * $scope.rates.quotes[con]).toFixed(2);
+        }
         $scope.startnew = true;
     };
     $scope.save = function() {
@@ -232,16 +251,11 @@ angular.module('starter.controllers', [])
     $scope.oldcat = undefined;
     $scope.fetchBudget = function() {
         $scope.budgets = Budgets.all();
-        if (localStorageService.get("totalAmount")) {
-            $scope.totalAmount = localStorageService.get("totalAmount");
-        } else {
-            $scope.totalAmount = 0;
-        }
     };
 
     $scope.updateChart = function() {
         $scope.arr = [$scope.current.counts[0].num, $scope.current.counts[1].num, $scope.current.counts[2].num, $scope.current.counts[3].num, $scope.current.counts[4].num];
-    }
+    };
     $scope.countLabels = ["Food", "Accomodation", "Transport", "Shopping", "Others"];
     $scope.chart = function(budget) {
         $scope.updateChart();
@@ -256,7 +270,7 @@ angular.module('starter.controllers', [])
 
     $scope.order = 'date';
     $scope.getTotal = function(budget) {
-        $scope.totalAmount = Budgets.getTotal(budget);
+        $scope.current.totalAmount = Budgets.getTotal(budget);
 
     };
     $scope.remove = function(budget) {
@@ -354,7 +368,7 @@ angular.module('starter.controllers', [])
         } else {
             y = 4;
         }
-        if (edittedItem.price == null) {
+        if (edittedItem.price === null) {
             $scope.current.counts[x].num -= $scope.currentItem.price;
             $scope.current.counts[y].num += $scope.currentItem.price;
         } else {
@@ -429,4 +443,4 @@ angular.module('starter.controllers', [])
             }
         });
     };
-})
+});

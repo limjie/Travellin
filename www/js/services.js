@@ -130,7 +130,7 @@ angular.module('starter.services', [])
             for (var i = budget.items.length - 1; i >= 0; i--) {
                 sum += budget.items[i].price;
             }
-            localStorageService.set("totalAmount", sum);
+            
             return sum;
 
         },
@@ -158,15 +158,18 @@ angular.module('starter.services', [])
                 name: budget.name,
                 amount: budget.amount,
                 items: [],
-                counts:[{num: 0}, {num: 0}, {num: 0}, {num: 0}, {num: 0}]
+                counts:[{num: 0}, {num: 0}, {num: 0}, {num: 0}, {num: 0}],
+                totalAmount: 0
             });
             localStorageService.set("budgetData", budgets);
         },
         addtogether: function(itinerary) {
             budgets.push({
                 name: itinerary.name,
-                amount: 0,
-                items: []
+                amount: itinerary.amount,
+                items: [],
+                counts:[{num: 0}, {num: 0}, {num: 0}, {num: 0}, {num: 0}],
+                totalAmount: 0
             });
             localStorageService.set("budgetData", budgets);
         },

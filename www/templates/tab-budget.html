@@ -5,6 +5,7 @@
         </button>
     </ion-nav-buttons>
     <ion-content padding="true" style="background: url(img/bg2.png) no-repeat center;background-size:cover;" class="has-header">
+        <ion-scroll style="height: 70%">
         <ion-list>
             <ion-item ng-repeat="budget in budgets" class="item-icon-right">
                 <h2 ng-click="view(budget)">{{budget.name}}, ${{budget.amount}}</h2>
@@ -15,6 +16,7 @@
                 </ion-option-button>
             </ion-item>
         </ion-list>
+        </ion-scroll>
     </ion-content>
     <!-- Add modal-->
     <script id="budgetAdd.html" type="text/ng-template">
@@ -84,7 +86,9 @@
                 <div id="chartID">Chart:
                     <button id="chartButton" class="button button-stable icon ion-ios-pie-outline" ng-click="chart(current)" style="background-color: white;"> Category</button>
                 </div>
+                <ion-scroll style="height: 70%">
                 <ion-list>
+                    
                     <ion-item ng-repeat="item in current.items | orderBy: order" type="item-text-wrap" class="item-button-right" id="budgetList">
                         <a id="budgetCategory" ng-if="item.category === 'Food'" class="icon ion-pizza"></a>
                         <a id="budgetCategory" ng-if="item.category === 'Transport'" class="icon ion-plane"></a>
@@ -100,13 +104,15 @@
                         <ion-option-button class="button-assertive ion-android-delete" ng-click="removeItem(item)">
                         </ion-option-button>
                     </ion-item>
+                    
                 </ion-list>
+                </ion-scroll>
             </ion-content>
             <ion-footer-bar align-title="left" padding="true" style="background: transparent;">
                 <div class="row">
-                    <div id="footerBar1">Total Spent: ${{totalAmount}}</div>
+                    <div id="footerBar1">Total Spent: ${{current.totalAmount}}</div>
                     <div class="spacer" style="margin: 0 auto; width: 80px;"></div>
-                    <div id="footerBar2">Amount Left: ${{current.amount - totalAmount}}</div>
+                    <div id="footerBar2">Amount Left: ${{current.amount - current.totalAmount}}</div>
                 </div>
             </ion-footer-bar>
         </ion-modal-view>
@@ -137,7 +143,7 @@
                             <div class="col" id="summaryCol2">
                                 <div class="row" ng-repeat="item2 in current.counts">${{item2.num}}</div>
                             </div>
-                            <div class="row" id="summaryCol3" ng-repeat="item3 in current.counts">{{(totalAmount !== 0) ? (item3.num / totalAmount * 100).toFixed(2): 0}} %</div>
+                            <div class="row" id="summaryCol3" ng-repeat="item3 in current.counts">{{(current.totalAmount !== 0) ? (item3.num / current.totalAmount * 100).toFixed(2): 0}} %</div>
                         </div>
                     </div>
                 </div>
@@ -207,7 +213,7 @@
                     </label>
                     <label class="item item-input">
                         <span class="input-label">Price:</span>
-                        <input ng-model="editteditem.price" type="text" placeholder="{{currentItem.price}}">
+                        <input ng-model="editteditem.price" type="number" placeholder="{{currentItem.price}}">
                     </label>
                     <label class="item item-input item-select">
                         <span class="input-label">Categories:</span>
